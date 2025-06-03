@@ -89,7 +89,9 @@
                     </select>
                 </div>
             </div>
-            <div id="comparisonChart" class="chart-container"></div>
+            <div id="comparisonChart" class="chart-container">
+                <canvas id="comparisonChartCanvas"></canvas>
+            </div>
             <div class="mt-4 p-4 bg-green-50 rounded-lg">
                 <h4 class="font-semibold text-green-800">Pattern Recognition:</h4>
                 <p class="text-green-700 text-sm mt-1">Commercial sectors show 40% higher organic waste than residential, indicating opportunities for targeted composting programs. Self-haul sectors contain 60% more construction debris, suggesting specialized recycling infrastructure needs.</p>
@@ -102,7 +104,9 @@
             <div class="grid md:grid-cols-2 gap-6">
                 <div>
                     <h4 class="font-semibold mb-2">Recycling Potential by Category</h4>
-                    <div id="sustainabilityChart" class="chart-container"></div>
+                    <div id="sustainabilityChart" class="chart-container">
+                        <canvas id="sustainabilityChartCanvas"></canvas>
+                    </div>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-2">Environmental Impact Metrics</h4>
@@ -293,7 +297,7 @@
             const values = sectors.map(sector => wasteData[sector][material] || 0);
             const labels = ['Statewide', 'Residential', 'Commercial', 'Self-Haul', 'Transfer'];
 
-            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            const ctx = document.getElementById('comparisonChartCanvas').getContext('2d');
             
             if (window.comparisonChartInstance) {
                 window.comparisonChartInstance.destroy();
@@ -366,7 +370,7 @@
             const potentialData = Object.values(recyclingPotential);
             const currentData = Object.values(currentRecycling);
 
-            const ctx = document.getElementById('sustainabilityChart').getContext('2d');
+            const ctx = document.getElementById('sustainabilityChartCanvas').getContext('2d');
             
             new Chart(ctx, {
                 type: 'radar',
