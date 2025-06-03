@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Source Code Documentation - California Waste Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-green-600 text-white p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold"><i class="fas fa-code mr-2"></i>California Waste Analytics - Source Code Documentation</h1>
+            <div class="space-x-4">
+                <a href="#overview" class="hover:text-green-200">Overview</a>
+                <a href="#structure" class="hover:text-green-200">Structure</a>
+                <a href="#code" class="hover:text-green-200">Source Code</a>
+                <a href="#deployment" class="hover:text-green-200">Deployment</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Project Overview -->
+        <section id="overview" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-info-circle text-blue-500 mr-3"></i>Project Overview</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-green-600">Project Description</h3>
+                        <p class="text-gray-700 mb-4">
+                            An intelligent interactive visual analytics platform for California's 2021 waste characterization data, 
+                            featuring three distinct visualizations designed to promote sustainable waste management practices.
+                        </p>
+                        
+                        <h4 class="font-semibold mb-2">Key Features:</h4>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Interactive hierarchical treemap for waste composition analysis</li>
+                            <li>Comparative sector analysis dashboard with filtering</li>
+                            <li>Sustainability impact visualization with recycling metrics</li>
+                            <li>Real-time data pattern recognition</li>
+                            <li>Responsive design for all devices</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-green-600">Technology Stack</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">Frontend:</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li><i class="fab fa-html5 text-orange-500 mr-2"></i>HTML5</li>
+                                <li><i class="fab fa-css3-alt text-blue-500 mr-2"></i>CSS3 with Tailwind</li>
+                                <li><i class="fab fa-js-square text-yellow-500 mr-2"></i>JavaScript ES6+</li>
+                                <li><i class="fas fa-chart-bar text-green-500 mr-2"></i>D3.js for visualizations</li>
+                                <li><i class="fas fa-chart-line text-purple-500 mr-2"></i>Chart.js for charts</li>
+                            </ul>
+                            
+                            <h4 class="font-semibold mb-2 mt-4">Data Processing:</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li><i class="fas fa-database text-blue-600 mr-2"></i>CSV data parsing</li>
+                                <li><i class="fas fa-filter text-green-600 mr-2"></i>Client-side filtering</li>
+                                <li><i class="fas fa-search text-purple-600 mr-2"></i>Pattern recognition algorithms</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Structure -->
+        <section id="structure" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-folder-tree text-blue-500 mr-3"></i>Project Structure</h2>
+                
+                <div class="bg-gray-900 text-green-400 p-6 rounded-lg font-mono text-sm overflow-x-auto">
+<pre>waste-analytics-project/
+├── 📁 data/
+│   ├── 📄 Statewide_waste_data_fixed.csv
+│   ├── 📄 Residential_waste_data_fixed.csv
+│   ├── 📄 Commercial_waste_data_fixed.csv
+│   ├── 📄 Self_Haul_waste_data_fixed.csv
+│   ├── 📄 Transfer_Truck_waste_data_fixed.csv
+│   ├── 📄 Multi_family_waste_data_fixed.csv
+│   └── 📄 waste_data_combined_fixed.csv
+├── 📁 src/
+│   ├── 📄 index.html                    # Main dashboard
+│   ├── 📄 styles.css                    # Custom styles
+│   ├── 📁 js/
+│   │   ├── 📄 main.js                   # Core application logic
+│   │   ├── 📄 treemap.js                # Treemap visualization
+│   │   ├── 📄 sector-comparison.js      # Sector analysis
+│   │   ├── 📄 sustainability.js         # Sustainability metrics
+│   │   └── 📄 data-processor.js         # Data processing utilities
+│   └── 📁 components/
+│       ├── 📄 navigation.js             # Navigation component
+│       ├── 📄 filters.js                # Filter components
+│       └── 📄 insights.js               # Insights generation
+├── 📁 docs/
+│   ├── 📄 research-paper.html           # Academic paper
+│   ├── 📄 presentation.pdf              # Project presentation
+│   └── 📄 api-documentation.md          # API documentation
+├── 📁 assets/
+│   ├── 📁 images/                       # Project images
+│   └── 📁 icons/                        # Custom icons
+├── 📄 README.md                         # Project documentation
+├── 📄 LICENSE                           # MIT License
+└── 📄 package.json                      # Dependencies</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Source Code -->
+        <section id="code" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-code text-blue-500 mr-3"></i>Complete Source Code</h2>
+                
+                <!-- Main HTML Structure -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-green-600">1. Main Dashboard HTML (index.html)</h3>
+                    <pre class="language-html bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;California Waste Analytics&lt;/title&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"&gt;
+    &lt;script src="https://d3js.org/d3.v7.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body class="bg-gray-50"&gt;
+    &lt;!-- Navigation --&gt;
+    &lt;nav class="bg-green-600 text-white p-4"&gt;
+        &lt;div class="container mx-auto flex justify-between items-center"&gt;
+            &lt;h1 class="text-xl font-bold"&gt;California Waste Analytics&lt;/h1&gt;
+            &lt;div class="space-x-4"&gt;
+                &lt;button onclick="showVisualization('treemap')" class="nav-btn"&gt;Composition&lt;/button&gt;
+                &lt;button onclick="showVisualization('comparison')" class="nav-btn"&gt;Sectors&lt;/button&gt;
+                &lt;button onclick="showVisualization('sustainability')" class="nav-btn"&gt;Sustainability&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/nav&gt;
+
+    &lt;!-- Main Content --&gt;
+    &lt;div class="container mx-auto px-4 py-8"&gt;
+        &lt;!-- Visualization Containers --&gt;
+        &lt;div id="treemap-container" class="visualization-container"&gt;
+            &lt;div id="treemap-visualization"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div id="comparison-container" class="visualization-container hidden"&gt;
+            &lt;div id="sector-comparison"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div id="sustainability-container" class="visualization-container hidden"&gt;
+            &lt;div id="sustainability-metrics"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;script src="js/main.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+
+                <!-- JavaScript Core Logic -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-green-600">2. Core Application Logic (main.js)</h3>
+                    <pre class="language-javascript bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>// Main Application Controller
+class WasteAnalyticsApp {
+    constructor() {
+        this.data = null;
+        this.currentVisualization = 'treemap';
+        this.filters = {
+            sector: 'all',
+            category: 'all',
+            materialType: 'all'
+        };
+        this.init();
+    }
+
+    async init() {
+        try {
+            // Load and process data
+            await this.loadData();
+            this.initializeVisualizations();
+            this.bindEvents();
+            this.showVisualization('treemap');
+        } catch (error) {
+            console.error('Failed to initialize application:', error);
+            this.showError('Failed to load data. Please refresh the page.');
+        }
+    }
+
+    async loadData() {
+        const dataFiles = [
+            'data/waste_data_combined_fixed.csv'
+        ];
+        
+        const responses = await Promise.all(
+            dataFiles.map(file => fetch(file).then(r => r.text()))
+        );
+        
+        this.data = this.parseCSVData(responses[0]);
+        this.processedData = this.processDataForAnalytics(this.data);
+    }
+
+    parseCSVData(csvText) {
+        const lines = csvText.split('\n');
+        const headers = lines[0].split(',').map(h => h.trim());
+        
+        return lines.slice(1).map(line => {
+            const values = line.split(',');
+            const row = {};
+            headers.forEach((header, index) => {
+                row[header] = values[index] ? values[index].trim() : '';
+            });
+            return row;
+        }).filter(row => row.Category && row.Category !== '');
+    }
+
+    processDataForAnalytics(data) {
+        // Group data by sector and category
+        const processed = {
+            bySector: {},
+            byCategory: {},
+            totalTonnage: 0,
+            sustainabilityMetrics: {}
+        };
+
+        data.forEach(row => {
+            const sector = row.Sector || 'Unknown';
+            const category = row.Category || 'Unknown';
+            const tonnage = parseFloat(row.Tonnage) || 0;
+            const percentage = parseFloat(row.Percentage) || 0;
+
+            // Group by sector
+            if (!processed.bySector[sector]) {
+                processed.bySector[sector] = {};
+            }
+            if (!processed.bySector[sector][category]) {
+                processed.bySector[sector][category] = {
+                    tonnage: 0,
+                    percentage: 0,
+                    materials: []
+                };
+            }
+            
+            processed.bySector[sector][category].tonnage += tonnage;
+            processed.bySector[sector][category].percentage += percentage;
+            processed.bySector[sector][category].materials.push(row);
+
+            // Calculate sustainability metrics
+            if (this.isRecyclable(category)) {
+                if (!processed.sustainabilityMetrics[sector]) {
+                    processed.sustainabilityMetrics[sector] = {
+                        recyclable: 0,
+                        total: 0
+                    };
+                }
+                processed.sustainabilityMetrics[sector].recyclable += tonnage;
+            }
+
+            processed.totalTonnage += tonnage;
+        });
+
+        return processed;
+    }
+
+    isRecyclable(category) {
+        const recyclableCategories = ['PAPER', 'PLASTIC', 'GLASS', 'METAL'];
+        return recyclableCategories.includes(category.toUpperCase());
+    }
+
+    initializeVisualizations() {
+        this.treemap = new TreemapVisualization('treemap-visualization', this.processedData);
+        this.sectorComparison = new SectorComparison('sector-comparison', this.processedData);
+        this.sustainability = new SustainabilityVisualization('sustainability-metrics', this.processedData);
+    }
+
+    showVisualization(type) {
+        // Hide all visualizations
+        document.querySelectorAll('.visualization-container').forEach(container => {
+            container.classList.add('hidden');
+        });
+
+        // Show selected visualization
+        const container = document.getElementById(`${type}-container`);
+        if (container) {
+            container.classList.remove('hidden');
+            this.currentVisualization = type;
+            
+            // Trigger resize/redraw if needed
+            this.resizeCurrentVisualization();
+        }
+    }
+
+    resizeCurrentVisualization() {
+        switch(this.currentVisualization) {
+            case 'treemap':
+                this.treemap.resize();
+                break;
+            case 'comparison':
+                this.sectorComparison.update();
+                break;
+            case 'sustainability':
+                this.sustainability.update();
+                break;
+        }
+    }
+
+    bindEvents() {
+        // Window resize handler
+        window.addEventListener('resize', () => {
+            this.resizeCurrentVisualization();
+        });
+
+        // Filter change handlers
+        document.addEventListener('filterChange', (event) => {
+            this.updateFilters(event.detail);
+        });
+    }
+
+    updateFilters(newFilters) {
+        this.filters = { ...this.filters, ...newFilters };
+        
+        // Update all visualizations with new filters
+        this.treemap.updateFilters(this.filters);
+        this.sectorComparison.updateFilters(this.filters);
+        this.sustainability.updateFilters(this.filters);
+    }
+
+    showError(message) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4';
+        errorDiv.textContent = message;
+        document.body.insertBefore(errorDiv, document.body.firstChild);
+    }
+}
+
+// Global navigation function
+function showVisualization(type) {
+    if (window.app) {
+        window.app.showVisualization(type);
+    }
+}
+
+// Initialize application when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.app = new WasteAnalyticsApp();
+});</code></pre>
+                </div>
+
+                <!-- Treemap Visualization -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-green-600">3. Treemap Visualization (treemap.js)</h3>
+                    <pre class="language-javascript bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>class TreemapVisualization {
+    constructor(containerId, data) {
+        this.containerId = containerId;
+        this.data = data;
+        this.width = 800;
+        this.height = 600;
+        this.svg = null;
+        this.tooltip = null;
+        this.create();
+    }
+
+    create() {
+        const container = d3.select(`#${this.containerId}`);
+        
+        // Clear existing content
+        container.selectAll("*").remove();
+        
+        // Create title
+        container.append("h2")
+            .attr("class", "text-2xl font-bold mb-4 text-center")
+            .text("Waste Composition by Category and Material Type");
+
+        // Create sector selector
+        const selectorDiv = container.append("div")
+            .attr("class", "mb-4 text-center");
+            
+        const selector = selectorDiv.append("select")
+            .attr("id", "sector-selector")
+            .attr("class", "px-4 py-2 border rounded-lg")
+            .on("change", () => this.updateSector());
+
+        selector.append("option").attr("value", "Statewide").text("Statewide");
+        selector.append("option").attr("value", "Residential").text("Residential");
+        selector.append("option").attr("value", "Commercial").text("Commercial");
+        selector.append("option").attr("value", "Self_Haul").text("Self-Haul");
+        selector.append("option").attr("value", "Transfer_Truck").text("Transfer Truck");
+
+        // Create SVG
+        this.svg = container.append("svg")
+            .attr("width", this.width)
+            .attr("height", this.height)
+            .attr("class", "border rounded-lg shadow-lg bg-white");
+
+        // Create tooltip
+        this.tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip absolute bg-gray-800 text-white p-2 rounded shadow-lg hidden")
+            .style("pointer-events", "none");
+
+        this.updateVisualization("Statewide");
+    }
+
+    updateSector() {
+        const selectedSector = document.getElementById("sector-selector").value;
+        this.updateVisualization(selectedSector);
+    }
+
+    updateVisualization(sector) {
+        const sectorData = this.data.bySector[sector];
+        if (!sectorData) return;
+
+        // Prepare data for treemap
+        const hierarchyData = {
+            name: sector,
+            children: Object.entries(sectorData).map(([category, data]) => ({
+                name: category,
+                value: data.tonnage,
+                percentage: data.percentage,
+                materials: data.materials.map(m => ({
+                    name: m.Material_Type,
+                    value: parseFloat(m.Tonnage) || 0,
+                    percentage: parseFloat(m.Percentage) || 0
+                }))
+            }))
+        };
+
+        // Create treemap layout
+        const treemap = d3.treemap()
+            .size([this.width, this.height])
+            .padding(2);
+
+        const root = d3.hierarchy(hierarchyData)
+            .sum(d => d.value)
+            .sort((a, b) => b.value - a.value);
+
+        treemap(root);
+
+        // Color scale
+        const colorScale = d3.scaleOrdinal()
+            .domain(Object.keys(sectorData))
+            .range(d3.schemeSet3);
+
+        // Clear existing elements
+        this.svg.selectAll("*").remove();
+
+        // Create groups for each category
+        const categoryGroups = this.svg.selectAll("g")
+            .data(root.leaves())
+            .enter().append("g");
+
+        // Add rectangles
+        categoryGroups.append("rect")
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("height", d => d.y1 - d.y0)
+            .attr("fill", d => colorScale(d.parent.data.name))
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 2)
+            .attr("opacity", 0.8)
+            .on("mouseover", (event, d) => this.showTooltip(event, d))
+            .on("mouseout", () => this.hideTooltip())
+            .on("click", (event, d) => this.showCategoryDetails(d));
+
+        // Add category labels
+        categoryGroups.append("text")
+            .attr("x", d => (d.x0 + d.x1) / 2)
+            .attr("y", d => (d.y0 + d.y1) / 2)
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .attr("font-size", d => Math.min(14, (d.x1 - d.x0) / 8))
+            .attr("font-weight", "bold")
+            .attr("fill", "#333")
+            .text(d => d.parent.data.name);
+
+        // Add tonnage labels
+        categoryGroups.append("text")
+            .attr("x", d => (d.x0 + d.x1) / 2)
+            .attr("y", d => (d.y0 + d.y1) / 2 + 15)
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .attr("font-size", d => Math.min(12, (d.x1 - d.x0) / 10))
+            .attr("fill", "#666")
+            .text(d => `${(d.data.value / 1000).toFixed(1)}K tons`);
+    }
+
+    showTooltip(event, d) {
+        const categoryData = d.parent.data;
+        this.tooltip
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 10) + "px")
+            .html(`
+                <strong>${categoryData.name}</strong><br>
+                Tonnage: ${categoryData.value.toLocaleString()} tons<br>
+                Percentage: ${categoryData.percentage.toFixed(1)}%<br>
+                Materials: ${categoryData.materials.length}
+            `)
+            .classed("hidden", false);
+    }
+
+    hideTooltip() {
+        this.tooltip.classed("hidden", true);
+    }
+
+    showCategoryDetails(d) {
+        const categoryData = d.parent.data;
+        alert(`Category: ${categoryData.name}\nTonnage: ${categoryData.value.toLocaleString()} tons\nMaterials: ${categoryData.materials.length}`);
+    }
+
+    resize() {
+        const container = d3.select(`#${this.containerId}`);
+        const containerWidth = container.node().offsetWidth;
+        
+        this.width = Math.min(containerWidth - 40, 800);
+        this.svg.attr("width", this.width);
+        
+        // Re-render with new dimensions
+        const selectedSector = document.getElementById("sector-selector").value;
+        this.updateVisualization(selectedSector);
+    }
+
+    updateFilters(filters) {
+        // Update visualization based on filters
+        if (filters.sector !== 'all') {
+            document.getElementById("sector-selector").value = filters.sector;
+            this.updateVisualization(filters.sector);
+        }
+    }
+}</code></pre>
+                </div>
+
+                <!-- Sector Comparison -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-green-600">4. Sector Comparison Visualization (sector-comparison.js)</h3>
+                    <pre class="language-javascript bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>class SectorComparison {
+    constructor(containerId, data) {
+        this.containerId = containerId;
+        this.data = data;
+        this.charts = {};
+        this.create();
+    }
+
+    create() {
+        const container = d3.select(`#${this.containerId}`);
+        
+        // Clear existing content
+        container.selectAll("*").remove();
+        
+        // Create title
+        container.append("h2")
+            .attr("class", "text-2xl font-bold mb-6 text-center")
+            .text("Waste Composition Comparison Across Sectors");
+
+        // Create filter controls
+        this.createFilters(container);
+        
+        // Create chart containers
+        const chartsContainer = container.append("div")
+            .attr("class", "grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6");
+
+        // Bar chart comparing categories across sectors
+        const barChartContainer = chartsContainer.append("div")
+            .attr("class", "bg-white p-6 rounded-lg shadow-lg");
+        
+        barChartContainer.append("h3")
+            .attr("class", "text-lg font-semibold mb-4")
+            .text("Category Distribution by Sector");
+            
+        barChartContainer.append("canvas")
+            .attr("id", "sector-bar-chart")
+            .attr("width", 400)
+            .attr("height", 300);
+
+        // Pie chart for selected sector
+        const pieChartContainer = chartsContainer.append("div")
+            .attr("class", "bg-white p-6 rounded-lg shadow-lg");
+            
+        pieChartContainer.append("h3")
+            .attr("class", "text-lg font-semibold mb-4")
+            .text("Selected Sector Composition");
+            
+        pieChartContainer.append("canvas")
+            .attr("id", "sector-pie-chart")
+            .attr("width", 400)
+            .attr("height", 300);
+
+        // Data table
+        const tableContainer = container.append("div")
+            .attr("class", "bg-white p-6 rounded-lg shadow-lg mt-6");
+            
+        tableContainer.append("h3")
+            .attr("class", "text-lg font-semibold mb-4")
+            .text("Detailed Comparison Table");
+            
+        tableContainer.append("div")
+            .attr("id", "comparison-table");
+
+        this.initializeCharts();
+        this.createTable();
+    }
+
+    createFilters(container) {
+        const filtersDiv = container.append("div")
+            .attr("class", "bg-white p-4 rounded-lg shadow mb-6");
+
+        const filtersGrid = filtersDiv.append("div")
+            .attr("class", "grid grid-cols-1 md:grid-cols-3 gap-4");
+
+        // Sector filter
+        const sectorFilter = filtersGrid.append("div");
+        sectorFilter.append("label")
+            .attr("class", "block text-sm font-medium mb-2")
+            .text("Focus Sector:");
+        
+        const sectorSelect = sectorFilter.append("select")
+            .attr("id", "focus-sector")
+            .attr("class", "w-full px-3 py-2 border rounded-lg")
+            .on("change", () => this.updatePieChart());
+
+        sectorSelect.append("option").attr("value", "Statewide").text("Statewide");
+        sectorSelect.append("option").attr("value", "Residential").text("Residential");
+        sectorSelect.append("option").attr("value", "Commercial").text("Commercial");
+        sectorSelect.append("option").attr("value", "Self_Haul").text("Self-Haul");
+        sectorSelect.append("option").attr("value", "Transfer_Truck").text("Transfer Truck");
+
+        // Category filter
+        const categoryFilter = filtersGrid.append("div");
+        categoryFilter.append("label")
+            .attr("class", "block text-sm font-medium mb-2")
+            .text("Category Filter:");
+            
+        const categorySelect = categoryFilter.append("select")
+            .attr("id", "category-filter")
+            .attr("class", "w-full px-3 py-2 border rounded-lg")
+            .on("change", () => this.updateCharts());
+
+        categorySelect.append("option").attr("value", "all").text("All Categories");
+        
+        // Add categories dynamically
+        const categories = new Set();
+        Object.values(this.data.bySector).forEach(sector => {
+            Object.keys(sector).forEach(category => categories.add(category));
+        });
+        
+        categories.forEach(category => {
+            categorySelect.append("option").attr("value", category).text(category);
+        });
+
+        // Update button
+        const updateFilter = filtersGrid.append("div");
+        updateFilter.append("label")
+            .attr("class", "block text-sm font-medium mb-2")
+            .html("&nbsp;");
+            
+        updateFilter.append("button")
+            .attr("class", "w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700")
+            .text("Update Charts")
+            .on("click", () => this.updateCharts());
+    }
+
+    initializeCharts() {
+        this.createBarChart();
+        this.updatePieChart();
+    }
+
+    createBarChart() {
+        const ctx = document.getElementById('sector-bar-chart').getContext('2d');
+        
+        // Prepare data for bar chart
+        const sectors = Object.keys(this.data.bySector);
+        const categories = new Set();
+        
+        sectors.forEach(sector => {
+            Object.keys(this.data.bySector[sector]).forEach(category => {
+                categories.add(category);
+            });
+        });
+
+        const datasets = Array.from(categories).map((category, index) => ({
+            label: category,
+            data: sectors.map(sector => {
+                const sectorData = this.data.bySector[sector][category];
+                return sectorData ? sectorData.percentage : 0;
+            }),
+            backgroundColor: d3.schemeSet3[index % d3.schemeSet3.length],
+            borderColor: d3.schemeSet3[index % d3.schemeSet3.length],
+            borderWidth: 1
+        }));
+
+        this.charts.barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: sectors,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Waste Category Distribution by Sector (%)'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: false
+                    },
+                    y: {
+                        stacked: false,
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Percentage (%)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    updatePieChart() {
+        const selectedSector = document.getElementById('focus-sector').value;
+        const sectorData = this.data.bySector[selectedSector];
+        
+        if (!sectorData) return;
+
+        const ctx = document.getElementById('sector-pie-chart').getContext('2d');
+        
+        // Destroy existing chart if it exists
+        if (this.charts.pieChart) {
+            this.charts.pieChart.destroy();
+        }
+
+        const categories = Object.keys(sectorData);
+        const data = categories.map(category => sectorData[category].percentage);
+        const colors = categories.map((_, index) => d3.schemeSet3[index % d3.schemeSet3.length]);
+
+        this.charts.pieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: categories,
+                datasets: [{
+                    data: data,
+                    backgroundColor: colors,
+                    borderColor: colors.map(color => color),
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `${selectedSector} Sector Composition`
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+
+    updateCharts() {
+        this.createBarChart();
+        this.updatePieChart();
+        this.createTable();
+    }
+
+    createTable() {
+        const tableContainer = d3.select("#comparison-table");
+        tableContainer.selectAll("*").remove();
+
+        // Create table
+        const table = tableContainer.append("table")
+            .attr("class", "w-full border-collapse border border-gray-300");
+
+        // Create header
+        const sectors = Object.keys(this.data.bySector);
+        const categories = new Set();
+        
+        sectors.forEach(sector => {
+            Object.keys(this.data.bySector[sector]).forEach(category => {
+                categories.add(category);
+            });
+        });
+
+        const thead = table.append("thead");
+        const headerRow = thead.append("tr").attr("class", "bg-gray-100");
+        
+        headerRow.append("th")
+            .attr("class", "border border-gray-300 px-4 py-2 text-left")
+            .text("Category");
+            
+        sectors.forEach(sector => {
+            headerRow.append("th")
+                .attr("class", "border border-gray-300 px-4 py-2 text-center")
+                .text(sector);
+        });
+
+        // Create body
+        const tbody = table.append("tbody");
+        
+        Array.from(categories).forEach(category => {
+            const row = tbody.append("tr").attr("class", "hover:bg-gray-50");
+            
+            row.append("td")
+                .attr("class", "border border-gray-300 px-4 py-2 font-medium")
+                .text(category);
+                
+            sectors.forEach(sector => {
+                const sectorData = this.data.bySector[sector][category];
+                const value = sectorData ? `${sectorData.percentage.toFixed(1)}%` : 'N/A';
+                
+                row.append("td")
+                    .attr("class", "border border-gray-300 px-4 py-2 text-center")
+                    .text(value);
+            });
+        });
+    }
+
+    update() {
+        this.updateCharts();
+    }
+
+    updateFilters(filters) {
+        if (filters.sector !== 'all') {
+            document.getElementById('focus-sector').value = filters.sector;
+            this.updatePieChart();
+        }
+        
+        if (filters.category !== 'all') {
+            document.getElementById('category-filter').value = filters.category;
+        }
+        
+        this.updateCharts();
+    }
+}</code></pre>
+                </div>
+
+                <!-- CSS Styles -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-green-600">5. Custom Styles (styles.css)</h3>
+                    <pre class="language-css bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>/* Custom styles for Waste Analytics Dashboard */
+
+/* Global Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Navigation Styles */
+.nav-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.nav-btn.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+}
+
+/* Visualization Container Styles */
+.visualization-container {
+    min-height: 600px;
+    transition: opacity 0.3s ease;
+}
+
+.visualization-container.hidden {
+    display: none;
+}
+
+/* Tooltip Styles */
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 250px;
+    z-index: 1000;
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+}
+
+/* Chart Container Styles */
+.chart-container {
+    position: relative;
+    height: 400px;
+    margin: 1rem 0;
+}
+
+.chart-title {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #374151;
+}
+
+/* Filter Styles */
+.filter-container {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+.filter-select {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    background: white;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Button Styles */
+.btn-primary {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-secondary {
+    background: #f9fafb;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+/* Card Styles */
+.card {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Metric Display Styles */
+.metric-card {
+    text-align: center;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #10b981;
+    margin-bottom: 0.5rem;
+}
+
+.metric-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+/* Table Styles */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.data-table th {
+    background: #f9fafb;
+    padding: 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.data-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.data-table tr:hover {
+    background: #f9fafb;
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(16, 185, 129, 0.3);
+    border-radius: 50%;
+    border-top-color: #10b981;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Error Message Styles */
+.error-message {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #fecaca;
+    margin: 1rem 0;
+}
+
+/* Success Message Styles */
+.success-message {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #a7f3d0;
+    margin: 1rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .visualization-container {
+        padding: 1rem;
+    }
+    
+    .filter-container {
+        padding: 1rem;
+    }
+    
+    .card-header,
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .metric-value {
+        font-size: 1.5rem;
+    }
+    
+    .data-table {
+        font-size: 0.875rem;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .metric-value {
+        font-size: 1.25rem;
+    }
+    
+    .filter-select {
+        padding: 0.5rem;
+    }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Processing -->
+        <section id="data-processing" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-database text-blue-500 mr-3"></i>Data Processing Methodology</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-green-600">Data Extraction Process</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                                <li><strong>PDF Text Extraction:</strong> Using PyPDF2 to extract raw text from each page</li>
+                                <li><strong>Pattern Recognition:</strong> Regular expressions to identify data patterns</li>
+                                <li><strong>Data Categorization:</strong> Grouping materials into waste categories</li>
+                                <li><strong>Validation:</strong> Cross-checking totals and percentages</li>
+                                <li><strong>CSV Generation:</strong> Structured data export for visualization</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-green-600">Data Structure</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <pre class="text-sm"><code>{
+  "Category": "PAPER",
+  "Material_Type": "Corrugated Cardboard",
+  "Percentage": 4.1,
+  "Tonnage": 1643490,
+  "Sector": "Statewide"
+}</code></pre>
+                            <p class="text-sm text-gray-600 mt-2">Each record contains category, material type, composition percentage, tonnage, and sector information.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4 text-green-600">Intelligent Analytics Features</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-700 mb-2">Pattern Recognition</h4>
+                            <p class="text-sm text-gray-700">Automated identification of waste composition patterns across sectors</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-700 mb-2">Sustainability Metrics</h4>
+                            <p class="text-sm text-gray-700">Calculation of recycling potential and environmental impact indicators</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-700 mb-2">Comparative Analysis</h4>
+                            <p class="text-sm text-gray-700">Cross-sector comparisons revealing invisible waste management opportunities</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation & Deployment -->
+        <section id="deployment" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-rocket text-blue-500 mr-3"></i>Installation & Deployment Guide</h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-green-600">Quick Start</h3>
+                        <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm">
+<pre># Clone the repository
+git clone https://github.com/yourusername/waste-analytics.git
+cd waste-analytics
+
+# Install dependencies (if using Node.js server)
+npm install
+
+# Start local development server
+npm start
+
+# Or serve with Python
+python -m http.server 8000
+
+# Open browser to localhost:8000</pre>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-green-600">Requirements</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">System Requirements:</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>Modern web browser (Chrome, Firefox, Safari, Edge)</li>
+                                <li>JavaScript enabled</li>
+                                <li>Internet connection for CDN resources</li>
+                            </ul>
+                            
+                            <h4 class="font-semibold mb-2 mt-4">Optional (for local development):</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>Node.js 14+ (for development server)</li>
+                                <li>Python 3.6+ (alternative local server)</li>
+                                <li>Git (for version control)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-green-600">Deployment Options</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-700 mb-2">Static Hosting</h4>
+                                <p class="text-sm text-gray-700 mb-2">Deploy to any static hosting service:</p>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• GitHub Pages</li>
+                                    <li>• Netlify</li>
+                                    <li>• Vercel</li>
+                                    <li>• AWS S3</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-700 mb-2">Cloud Platforms</h4>
+                                <p class="text-sm text-gray-700 mb-2">Deploy with serverless functions:</p>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• Heroku</li>
+                                    <li>• Google Cloud Platform</li>
+                                    <li>• Azure Static Web Apps</li>
+                                    <li>• Firebase Hosting</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Documentation -->
+        <section id="api" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-plug text-blue-500 mr-3"></i>API Documentation</h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-green-600">Data Access Methods</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">CSV Data Files:</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li><code>data/waste_data_combined_fixed.csv</code> - Combined dataset</li>
+                                <li><code>data/Statewide_waste_data_fixed.csv</code> - Statewide data</li>
+                                <li><code>data/Residential_waste_data_fixed.csv</code> - Residential sector</li>
+                                <li><code>data/Commercial_waste_data_fixed.csv</code> - Commercial sector</li>
+                                <li><code>data/Self_Haul_waste_data_fixed.csv</code> - Self-haul sector</li>
+                                <li><code>data/Transfer_Truck_waste_data_fixed.csv</code> - Transfer truck sector</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-green-600">JavaScript API Functions</h3>
+                        <div class="bg-gray-900 text-white p-4 rounded-lg text-sm">
+<pre><code>// Core Data Loading
+async loadData()
+parseCSVData(csvText)
+processDataForAnalytics(data)
+
+// Visualization Controls
+showVisualization(type)
+updateFilters(newFilters)
+resizeCurrentVisualization()
+
+// Data Analysis Functions
+calculateSustainabilityMetrics(data)
+identifyWastePatterns(sectorData)
+generateInsights(comparisonData)
+
+// Utility Functions
+formatTonnage(value)
+formatPercentage(value)
+isRecyclable(category)</code></pre>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-green-600">Event System</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">Custom Events:</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li><code>filterChange</code> - Triggered when filters are updated</li>
+                                <li><code>dataLoaded</code> - Fired when data loading is complete</li>
+                                <li><code>visualizationChange</code> - Emitted when switching visualizations</li>
+                                <li><code>insightGenerated</code> - Triggered when new insights are calculated</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sustainability & Reusability -->
+        <section id="sustainability" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-leaf text-green-500 mr-3"></i>Sustainability & Design Principles</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-green-600">Environmental Sustainability</h3>
+                        <div class="space-y-3">
+                            <div class="bg-green-50 p-3 rounded-lg">
+                                <h4 class="font-semibold text-green-700">Waste Reduction Insights</h4>
+                                <p class="text-sm text-gray-700">Identifies recyclable materials and opportunities for waste stream diversion</p>
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded-lg">
+                                <h4 class="font-semibold text-blue-700">Resource Optimization</h4>
+                                <p class="text-sm text-gray-700">Enables data-driven decisions for efficient waste management resource allocation</p>
+                            </div>
+                            <div class="bg-purple-50 p-3 rounded-lg">
+                                <h4 class="font-semibold text-purple-700">Impact Measurement</h4>
+                                <p class="text-sm text-gray-700">Quantifies environmental benefits of sustainable waste management practices</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-green-600">Design Sustainability</h3>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <h4 class="font-semibold text-gray-700">Modular Architecture</h4>
+                                <p class="text-sm text-gray-700">Component-based design allows easy extension and modification</p>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <h4 class="font-semibold text-gray-700">Reusable Components</h4>
+                                <p class="text-sm text-gray-700">Visualization classes can be adapted for other datasets</p>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <h4 class="font-semibold text-gray-700">Open Source</h4>
+                                <p class="text-sm text-gray-700">MIT license enables community contributions and adaptations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4 text-green-600">Reusability Guidelines</h3>
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h4 class="font-semibold mb-3">Adapting for Other Datasets:</h4>
+                        <ol class="list-decimal list-inside text-gray-700 space-y-2">
+                            <li>Update the CSV data structure in <code>data-processor.js</code></li>
+                            <li>Modify category mapping in <code>processDataForAnalytics()</code></li>
+                            <li>Adjust color schemes in visualization components</li>
+                            <li>Update sustainability metrics calculation logic</li>
+                            <li>Customize filtering options for your use case</li>
+                        </ol>
+                        
+                        <h4 class="font-semibold mb-3 mt-6">Extension Points:</h4>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Add new visualization types by extending base classes</li>
+                            <li>Implement additional data sources through the data loading interface</li>
+                            <li>Create custom insights algorithms in the analytics module</li>
+                            <li>Build new filter components using the established pattern</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- License -->
+        <section id="license" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-balance-scale text-blue-500 mr-3"></i>License Information</h2>
+                
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4">MIT License</h3>
+                    <div class="text-sm text-gray-700 space-y-2">
+                        <p>Copyright (c) 2024 California Waste Analytics Project</p>
+                        <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+                        <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+                        <p class="font-semibold">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.</p>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold mb-3">Data Attribution</h3>
+                    <p class="text-gray-700">This project uses California's 2021 Disposal Facility-based Waste Characterization Study data. Please ensure proper attribution when using or redistributing this dataset.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-8">
+        <div class="container mx-auto text-center">
+            <p class="mb-4">California Waste Analytics - Intelligent Interactive Visual Analytics</p>
+            <p class="text-gray-400 text-sm">Created for sustainable waste management and environmental impact reduction</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight current section in navigation
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-green-200');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('text-green-200');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
