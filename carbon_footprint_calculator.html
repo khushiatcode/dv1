@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California's Hidden Waste Story: What 40 Million Tons Tell Us About Our Future</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .waste-gradient {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #11998e, #38ef7d);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+        
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .section-pin {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .waste-item {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
+        }
+        
+        .waste-item.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .calculator-input {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .calculator-input:focus {
+            border-color: #11998e;
+            box-shadow: 0 0 20px rgba(17, 153, 142, 0.3);
+        }
+        
+        .insight-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+        
+        .insight-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        .waste-flow {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: flow 3s ease-in-out forwards;
+        }
+        
+        @keyframes flow {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        .hero-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .interactive-button {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .interactive-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(17, 153, 142, 0.3);
+        }
+        
+        .waste-visual {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+
+    <!-- Your Waste Footprint Calculator -->
+    <section class="min-h-screen bg-white relative" id="calculator-section">
+        <div class="container mx-auto px-6 py-20">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    What's <span class="text-green-600">Your</span> Waste Footprint?
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    The average Californian throws away <span class="font-bold">2,000 pounds</span> of trash per year. 
+                    But how much is that really?
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                        <div class="bg-gray-50 p-6 rounded-2xl">
+                            <h3 class="text-2xl font-bold mb-4">Calculate Your Impact</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Household Size</label>
+                                    <input type="number" id="householdSize" class="calculator-input w-full px-4 py-3 rounded-lg" value="4" min="1" max="10">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Recycling Habits</label>
+                                    <select id="recyclingHabits" class="calculator-input w-full px-4 py-3 rounded-lg">
+                                        <option value="1.0">Never recycle</option>
+                                        <option value="0.8">Sometimes recycle</option>
+                                        <option value="0.6" selected>Often recycle</option>
+                                        <option value="0.4">Always recycle</option>
+                                    </select>
+                                </div>
+                                <button onclick="calculateWaste()" class="interactive-button w-full py-4 text-white font-bold rounded-lg">
+                                    Calculate My Footprint
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center" id="results">
+                        <div class="bg-gradient-to-br from-green-400 to-blue-500 p-8 rounded-3xl text-white mb-8">
+                            <div class="text-6xl mb-4" id="wasteIcon">🗑️</div>
+                            <div class="text-4xl font-bold mb-2" id="wasteAmount">8,000</div>
+                            <div class="text-lg" id="wasteUnit">pounds per year</div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4" id="comparisons">
+                            <div class="insight-card p-4 rounded-xl">
+                                <div class="text-3xl mb-2">🏠</div>
+                                <div class="font-bold" id="comparison1">2 VW Bugs</div>
+                            </div>
+                            <div class="insight-card p-4 rounded-xl">
+                                <div class="text-3xl mb-2">🗑️</div>
+                                <div class="font-bold" id="comparison2">1,088 trash bags</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+   
+    <script>
+        // Register ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Global variables
+        let gameData = [
+            { question: "Which has the highest recovery value?", options: ["Aluminum Cans", "Plastic Bottles", "Paper", "Glass"], correct: 0, explanation: "Aluminum cans have 95% recovery rate and $1,500/ton value!" },
+            { question: "Which sector generates the most waste?", options: ["Residential", "Commercial", "Self-Haul", "Transfer"], correct: 1, explanation: "Commercial sector generates the most waste overall!" },
+            { question: "What percentage of waste is organics?", options: ["15%", "29%", "35%", "42%"], correct: 1, explanation: "29% of California's waste is organic material!" },
+            { question: "Which material is hardest to recycle?", options: ["Mixed Plastics", "Cardboard", "Aluminum", "Glass"], correct: 0, explanation: "Mixed plastics have very low recovery rates and value!" },
+            { question: "Best carbon impact reduction comes from?", options: ["Recycling plastic", "Composting organics", "Recycling paper", "Reducing packaging"], correct: 1, explanation: "Composting organics prevents methane emissions!" }
+        ];
+        
+        let currentRound = 0;
+        let gameScore = 0;
+        
+        // Scroll indicator
+        function updateScrollIndicator() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollIndicator').style.width = scrollPercent + '%';
+        }
+        
+        window.addEventListener('scroll', updateScrollIndicator);
+        
+        // Waste calculator
+        function calculateWaste() {
+            const householdSize = parseInt(document.getElementById('householdSize').value);
+            const recyclingFactor = parseFloat(document.getElementById('recyclingHabits').value);
+            
+            const baseWastePerPerson = 2000; // pounds per year
+            const totalWaste = Math.round(householdSize * baseWastePerPerson * recyclingFactor);
+            
+            document.getElementById('wasteAmount').textContent = totalWaste.toLocaleString();
+            document.getElementById('comparison1').textContent = `${Math.round(totalWaste / 2000)} VW Bugs`;
+            document.getElementById('comparison2').textContent = `${Math.round(totalWaste / 7.35)} trash bags`;
+            
+            // Animate the cards
+            const cards = document.querySelectorAll('#comparisons .insight-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, index * 200);
+            });
+        }
+        
+        // Initialize waste composition chart
+        function initWasteChart() {
+            const ctx = document.getElementById('wasteCompositionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Organics', 'Miscellaneous', 'Paper', 'Plastic', 'Inerts', 'Special Waste', 'Metal', 'Glass', 'Electronics', 'HHW'],
+                    datasets: [{
+                        data: [29, 17, 15, 14, 12, 5, 5, 2, 1, 0.3],
+                        backgroundColor: [
+                            '#10B981', '#8B5CF6', '#3B82F6', '#EF4444', 
+                            '#F59E0B', '#EC4899', '#6B7280', '#14B8A6', 
+                            '#F97316', '#84CC16'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        duration: 2000
+                    }
+                }
+            });
+        }
+        
+        // Initialize sector comparison chart
+        function initSectorChart() {
+            const ctx = document.getElementById('sectorComparisonChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Paper', 'Plastic', 'Glass', 'Metal', 'Organics', 'Electronics'],
+                    datasets: [{
+                        label: 'Residential',
+                        data: [18, 10, 3, 2, 43, 1],
+                        borderColor: '#3B82F6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        pointBackgroundColor: '#3B82F6'
+                    }, {
+                        label: 'Commercial',
+                        data: [21, 16, 3, 3, 19, 1],
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        pointBackgroundColor: '#10B981'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#374151'
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 50,
+                            grid: {
+                                color: '#E5E7EB'
+                            },
+                            angleLines: {
+                                color: '#E5E7EB'
+                            },
+                            pointLabels: {
+                                color: '#374151'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Scenario functions
+        function showScenario(type) {
+            const scenarios = {
+                aluminum: {
+                    title: "Perfect Aluminum Recovery",
+                    description: "If California recovered 100% of aluminum cans instead of current 67%:",
+                    impacts: [
+                        "Additional $67M annual value",
+                        "33% more aluminum in circulation",
+                        "Reduced mining impact",
+                        "15,000 fewer tons in landfills"
+                    ]
+                },
+                organics: {
+                    title: "Zero Food Waste",
+                    description: "If California composted all organic waste instead of landfilling:",
+                    impacts: [
+                        "3.1M tons CO₂ reduction",
+                        "Rich compost for agriculture",
+                        "Reduced methane emissions",
+                        "40% less landfill volume"
+                    ]
+                },
+                plastic: {
+                    title: "Plastic Revolution",
+                    description: "If California achieved 90% plastic recycling rates:",
+                    impacts: [
+                        "2.4M tons diverted annually",
+                        "$400M in material value",
+                        "Reduced ocean pollution",
+                        "New circular economy jobs"
+                    ]
+                }
+            };
+            
+            const scenario = scenarios[type];
+            const detailsDiv = document.getElementById('scenarioDetails');
+            
+            detailsDiv.innerHTML = `
+                <h3 class="text-2xl font-bold mb-4">${scenario.title}</h3>
+                <p class="text-lg mb-6">${scenario.description}</p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    ${scenario.impacts.map(impact => `
+                        <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                            <span class="text-yellow-300">✓</span> ${impact}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        // Game functions
+        function startGame() {
+            currentRound = 0;
+            gameScore = 0;
+            showGameRound();
+        }
+        
+        function showGameRound() {
+            if (currentRound >= gameData.length) {
+                showGameResults();
+                return;
+            }
+            
+            const round = gameData[currentRound];
+            document.getElementById('roundNumber').textContent = currentRound + 1;
+            
+            const optionsDiv = document.getElementById('gameOptions');
+            optionsDiv.innerHTML = round.options.map((option, index) => `
+                <button onclick="selectAnswer(${index})" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-6 rounded-xl text-left transition-all">
+                    <div class="text-lg font-bold">${option}</div>
+                </button>
+            `).join('');
+            
+            document.getElementById('gameScore').textContent = gameScore;
+        }
+        
+        function selectAnswer(selectedIndex) {
+            const round = gameData[currentRound];
+            const isCorrect = selectedIndex === round.correct;
+            
+            if (isCorrect) {
+                gameScore++;
+            }
+            
+            // Show feedback
+            const optionsDiv = document.getElementById('gameOptions');
+            optionsDiv.innerHTML = `
+                <div class="col-span-2 text-center p-8">
+                    <div class="text-4xl mb-4">${isCorrect ? '🎉' : '😅'}</div>
+                    <h3 class="text-2xl font-bold mb-4">${isCorrect ? 'Correct!' : 'Not quite!'}</h3>
+                    <p class="text-lg mb-6">${round.explanation}</p>
+                    <button onclick="nextRound()" class="interactive-button px-6 py-3 text-white font-bold rounded-lg">
+                        ${currentRound < gameData.length - 1 ? 'Next Round' : 'See Results'}
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('gameScore').textContent = gameScore;
+        }
+        
+        function nextRound() {
+            currentRound++;
+            showGameRound();
+        }
+        
+        function showGameResults() {
+            const percentage = Math.round((gameScore / gameData.length) * 100);
+            let message = "";
+            let emoji = "";
+            
+            if (percentage >= 80) {
+                message = "Waste Data Expert! You understand the hidden patterns.";
+                emoji = "🏆";
+            } else if (percentage >= 60) {
+                message = "Good detective work! You're getting the hang of it.";
+                emoji = "🕵️";
+            } else {
+                message = "Keep learning! The patterns take time to master.";
+                emoji = "📚";
+            }
+            
+            document.getElementById('gameContent').innerHTML = `
+                <div class="text-center">
+                    <div class="text-6xl mb-6">${emoji}</div>
+                    <h3 class="text-3xl font-bold mb-4">Game Complete!</h3>
+                    <div class="text-5xl font-bold text-yellow-300 mb-4">${gameScore}/${gameData.length}</div>
+                    <p class="text-xl mb-8">${message}</p>
+                    <button onclick="startGame()" class="interactive-button px-8 py-4 text-white font-bold rounded-lg">
+                        Play Again
+                    </button>
+                </div>
+            `;
+        }
+        
+        function generatePersonalPlan() {
+            alert("🎯 Your personalized waste reduction plan has been generated!\n\n• Focus on aluminum can recycling\n• Start composting organic waste\n• Choose products with minimal packaging\n• Track your monthly waste reduction\n\nExpected impact: $600/year value + 2 tons CO₂ reduction");
+        }
+        
+        // Scroll animations
+        gsap.utils.toArray('.waste-item').forEach((item, index) => {
+            gsap.fromTo(item, 
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    delay: index * 0.2,
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 80%"
+                    }
+                }
+            );
+        });
+        
+        gsap.utils.toArray('.insight-card').forEach((card, index) => {
+            gsap.fromTo(card,
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    delay: index * 0.2,
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 80%"
+                    }
+                }
+            );
+        });
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateWaste();
+            initWasteChart();
+            initSectorChart();
+            startGame();
+            
+            // Add floating animation to particles
+            gsap.utils.toArray('.particle').forEach(particle => {
+                gsap.to(particle, {
+                    y: "random(-20, 20)",
+                    x: "random(-20, 20)",
+                    rotation: "random(-180, 180)",
+                    duration: "random(3, 6)",
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            });
+        });
+    </script>
+</body>
+</html>
