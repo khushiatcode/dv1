@@ -26,28 +26,18 @@
         }
         
         .chart-container {
-            position: fixed;
+            position: sticky;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            transition: all 0.8s ease-in-out;
-            opacity: 0;
-            transform: scale(1.05);
             z-index: 1;
+            transition: opacity 0.8s ease-in-out;
+        }
+        
+        .chart-container.hidden {
+            opacity: 0;
             pointer-events: none;
-            display: none;
-        }
-        
-        .chart-container.visible {
-            display: block;
-            opacity: 0.3;
-        }
-        
-        .chart-container.active {
-            opacity: 1;
-            transform: scale(1);
-            z-index: 2;
         }
         
         .narrative-container {
@@ -56,14 +46,15 @@
         }
         
         .narrative-section {
-            min-height: 250vh;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
             position: relative;
         }
         
         .narrative-panel {
-            position: sticky;
-            top: 50%;
-            transform: translateY(-50%) scale(0.9);
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(99, 102, 241, 0.2);
@@ -72,19 +63,16 @@
             max-width: 600px;
             margin: 0 auto;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(50px);
             opacity: 0;
             transition: all 0.8s ease-out;
-            z-index: 20;
+            position: relative;
+            z-index: 2;
         }
         
         .narrative-panel.active {
+            transform: translateY(0);
             opacity: 1;
-            transform: translateY(-50%) scale(1);
-        }
-        
-        .narrative-panel.exit {
-            opacity: 0;
-            transform: translateY(-150%) scale(0.9);
         }
         
         .section-wrapper {
@@ -232,196 +220,223 @@
         </div>
     </div>
 
-    <!-- Chart Containers -->
-    <div id="introChart" class="chart-container">
-        <canvas id="introCanvas" class="chart-canvas"></canvas>
-    </div>
-    
-    <div id="correlationChart" class="chart-container hidden">
-        <canvas id="correlationCanvas" class="chart-canvas"></canvas>
-    </div>
-    
-    <div id="clustersChart" class="chart-container hidden">
-        <canvas id="clustersCanvas" class="chart-canvas"></canvas>
-    </div>
-    
-    <div id="mlChart" class="chart-container hidden">
-        <canvas id="mlCanvas" class="chart-canvas"></canvas>
-    </div>
-    
-    <div id="forecastChart" class="chart-container hidden">
-        <canvas id="forecastCanvas" class="chart-canvas"></canvas>
-    </div>
-    
-    <div id="carbonChart" class="chart-container hidden">
-        <canvas id="carbonCanvas" class="chart-canvas"></canvas>
-    </div>
-    
-    <div id="optimizationChart" class="chart-container hidden">
-        <canvas id="optimizationCanvas" class="chart-canvas"></canvas>
-    </div>
-
     <!-- Narrative Container -->
     <div class="narrative-container">
         <!-- Introduction Section -->
-        <section class="narrative-section" data-section="0" data-chart="intro">
-            <div class="narrative-panel">
-                <h1 class="main-title">California's Hidden Waste Story</h1>
-                <p class="subtitle">An AI-Powered Journey Through 2021 Data</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                    <div class="text-center">
-                        <div class="metric-highlight">1.3M</div>
-                        <div class="text-slate-400">tons recoverable</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="metric-highlight">$115M</div>
-                        <div class="text-slate-400">potential value</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="metric-highlight">94.7%</div>
-                        <div class="text-slate-400">AI accuracy</div>
+        <section class="section-wrapper" data-section="0">
+            <div class="chart-section">
+                <div id="introChart" class="chart-container">
+                    <canvas id="introCanvas" class="chart-canvas"></canvas>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="narrative-panel">
+                    <h1 class="main-title">California's Hidden Waste Story</h1>
+                    <p class="subtitle">An AI-Powered Journey Through 2021 Data</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                        <div class="text-center">
+                            <div class="metric-highlight">1.3M</div>
+                            <div class="text-slate-400">tons recoverable</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="metric-highlight">$115M</div>
+                            <div class="text-slate-400">potential value</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="metric-highlight">94.7%</div>
+                            <div class="text-slate-400">AI accuracy</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Recovery Potential Section -->
-        <section class="narrative-section" data-section="1" data-chart="correlation">
-            <div class="narrative-panel">
-                <h2 class="section-title">Recovery Potential Discovery</h2>
-                <p class="section-text">
-                    Our AI analysis reveals <span class="metric-highlight text-2xl">1.3 million tons</span> of recoverable waste currently being disposed of in California landfills.
-                </p>
-                <p class="section-text">
-                    This represents a massive opportunity for circular economy initiatives, with an estimated economic value of <span class="text-blue-400 font-semibold">$115 million</span> annually.
-                </p>
-                <div class="mt-6 p-4 bg-blue-900/30 rounded-lg border border-blue-500/30">
-                    <div class="text-blue-300 font-medium">Key Insight</div>
-                    <div class="text-slate-300 mt-1">Commercial sectors show the highest recovery potential with concentrated high-value materials.</div>
+        <section class="section-wrapper" data-section="1">
+            <div class="chart-section">
+                <div id="correlationChart" class="chart-container">
+                    <canvas id="correlationCanvas" class="chart-canvas"></canvas>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="narrative-panel">
+                    <h2 class="section-title">Recovery Potential Discovery</h2>
+                    <p class="section-text">
+                        Our AI analysis reveals <span class="metric-highlight text-2xl">1.3 million tons</span> of recoverable waste currently being disposed of in California landfills.
+                    </p>
+                    <p class="section-text">
+                        This represents a massive opportunity for circular economy initiatives, with an estimated economic value of <span class="text-blue-400 font-semibold">$115 million</span> annually.
+                    </p>
+                    <div class="mt-6 p-4 bg-blue-900/30 rounded-lg border border-blue-500/30">
+                        <div class="text-blue-300 font-medium">Key Insight</div>
+                        <div class="text-slate-300 mt-1">Commercial sectors show the highest recovery potential with concentrated high-value materials.</div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Cross-Sector Correlations Section -->
-        <section class="narrative-section" data-section="2" data-chart="clusters">
-            <div class="narrative-panel">
-                <h2 class="section-title">Hidden Pattern Discovery</h2>
-                <p class="section-text">
-                    Machine learning algorithms uncovered invisible relationships between waste streams across different sectors.
-                </p>
-                <p class="section-text">
-                    The most striking discovery: a <span class="text-red-400 font-bold">strong negative correlation (-0.73)</span> between residential organics and commercial paper waste.
-                </p>
-                <div class="mt-6 p-4 bg-purple-900/30 rounded-lg border border-purple-500/30">
-                    <div class="text-purple-300 font-medium">Strategic Opportunity</div>
-                    <div class="text-slate-300 mt-1">This correlation suggests complementary collection routes could optimize efficiency by 40%.</div>
+        <section class="section-wrapper" data-section="2">
+            <div class="chart-section">
+                <div id="clustersChart" class="chart-container">
+                    <canvas id="clustersCanvas" class="chart-canvas"></canvas>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="narrative-panel">
+                    <h2 class="section-title">Hidden Pattern Discovery</h2>
+                    <p class="section-text">
+                        Machine learning algorithms uncovered invisible relationships between waste streams across different sectors.
+                    </p>
+                    <p class="section-text">
+                        The most striking discovery: a <span class="text-red-400 font-bold">strong negative correlation (-0.73)</span> between residential organics and commercial paper waste.
+                    </p>
+                    <div class="mt-6 p-4 bg-purple-900/30 rounded-lg border border-purple-500/30">
+                        <div class="text-purple-300 font-medium">Strategic Opportunity</div>
+                        <div class="text-slate-300 mt-1">This correlation suggests complementary collection routes could optimize efficiency by 40%.</div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Behavioral Clusters Section -->
-        <section class="narrative-section" data-section="3" data-chart="ml">
-            <div class="narrative-panel">
-                <h2 class="section-title">Material Behavioral Clusters</h2>
-                <p class="section-text">
-                    AI clustering analysis identified three distinct behavioral patterns in waste generation:
-                </p>
-                <div class="space-y-4 mt-6">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
-                        <span class="text-slate-300"><strong class="text-blue-400">High-Value Recyclables</strong> - Aluminum, electronics, metals</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-4 h-4 bg-green-500 rounded-full"></div>
-                        <span class="text-slate-300"><strong class="text-green-400">Organic Streams</strong> - Food waste, yard trimmings</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-4 h-4 bg-red-500 rounded-full"></div>
-                        <span class="text-slate-300"><strong class="text-red-400">Problem Materials</strong> - Treated wood, contaminated items</span>
+        <section class="section-wrapper" data-section="3">
+            <div class="chart-section">
+                <div id="mlChart" class="chart-container">
+                    <canvas id="mlCanvas" class="chart-canvas"></canvas>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="narrative-panel">
+                    <h2 class="section-title">Material Behavioral Clusters</h2>
+                    <p class="section-text">
+                        AI clustering analysis identified three distinct behavioral patterns in waste generation:
+                    </p>
+                    <div class="space-y-4 mt-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
+                            <span class="text-slate-300"><strong class="text-blue-400">High-Value Recyclables</strong> - Aluminum, electronics, metals</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-4 h-4 bg-green-500 rounded-full"></div>
+                            <span class="text-slate-300"><strong class="text-green-400">Organic Streams</strong> - Food waste, yard trimmings</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-4 h-4 bg-red-500 rounded-full"></div>
+                            <span class="text-slate-300"><strong class="text-red-400">Problem Materials</strong> - Treated wood, contaminated items</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ML Performance Section -->
-        <section class="narrative-section" data-section="4" data-chart="forecast">
-            <div class="narrative-panel">
-                <h2 class="section-title">Predictive Intelligence</h2>
-                <p class="section-text">
-                    Our Random Forest model achieves <span class="metric-highlight text-2xl">94.7%</span> accuracy in predicting waste generation patterns.
-                </p>
-                <p class="section-text">
-                    Top predictive factors identified:
-                </p>
-                <div class="space-y-3 mt-6">
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-300">Sector Type</span>
-                        <span class="text-blue-400 font-bold">35%</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-300">Material Density</span>
-                        <span class="text-green-400 font-bold">28%</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-300">Seasonal Patterns</span>
-                        <span class="text-purple-400 font-bold">22%</span>
+        <section class="section-wrapper" data-section="4">
+            <div class="chart-section">
+                <div id="forecastChart" class="chart-container">
+                    <canvas id="forecastCanvas" class="chart-canvas"></canvas>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="narrative-panel">
+                    <h2 class="section-title">Predictive Intelligence</h2>
+                    <p class="section-text">
+                        Our Random Forest model achieves <span class="metric-highlight text-2xl">94.7%</span> accuracy in predicting waste generation patterns.
+                    </p>
+                    <p class="section-text">
+                        Top predictive factors identified:
+                    </p>
+                    <div class="space-y-3 mt-6">
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-300">Sector Type</span>
+                            <span class="text-blue-400 font-bold">35%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-300">Material Density</span>
+                            <span class="text-green-400 font-bold">28%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-300">Seasonal Patterns</span>
+                            <span class="text-purple-400 font-bold">22%</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Forecasting Section -->
-        <section class="narrative-section" data-section="5" data-chart="carbon">
-            <div class="narrative-panel">
-                <h2 class="section-title">Future Waste Projections</h2>
-                <p class="section-text">
-                    Predictive models forecast an <span class="text-orange-400 font-bold">8.3% increase</span> in organic waste generation by 2025.
-                </p>
-                <p class="section-text">
-                    This projection indicates immediate infrastructure scaling requirements for composting facilities statewide.
-                </p>
-                <div class="mt-6 p-4 bg-orange-900/30 rounded-lg border border-orange-500/30">
-                    <div class="text-orange-300 font-medium">Urgent Action Required</div>
-                    <div class="text-slate-300 mt-1">Current composting capacity will be exceeded by 2024 without intervention.</div>
+        <section class="section-wrapper" data-section="5">
+            <div class="chart-section">
+                <div id="carbonChart" class="chart-container">
+                    <canvas id="carbonCanvas" class="chart-canvas"></canvas>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="narrative-panel">
+                    <h2 class="section-title">Future Waste Projections</h2>
+                    <p class="section-text">
+                        Predictive models forecast an <span class="text-orange-400 font-bold">8.3% increase</span> in organic waste generation by 2025.
+                    </p>
+                    <p class="section-text">
+                        This projection indicates immediate infrastructure scaling requirements for composting facilities statewide.
+                    </p>
+                    <div class="mt-6 p-4 bg-orange-900/30 rounded-lg border border-orange-500/30">
+                        <div class="text-orange-300 font-medium">Urgent Action Required</div>
+                        <div class="text-slate-300 mt-1">Current composting capacity will be exceeded by 2024 without intervention.</div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Carbon Impact Section -->
-        <section class="narrative-section" data-section="6" data-chart="optimization">
-            <div class="narrative-panel">
-                <h2 class="section-title">Carbon Footprint Analysis</h2>
-                <p class="section-text">
-                    While treated wood represents only <span class="text-yellow-400">3.4% of waste by volume</span>, it contributes <span class="text-red-400 font-bold">18.7% of total carbon emissions</span>.
-                </p>
-                <p class="section-text">
-                    Total carbon footprint: <span class="metric-highlight text-2xl">3.1M tons CO₂e</span>
-                </p>
-                <div class="mt-6 p-4 bg-red-900/30 rounded-lg border border-red-500/30">
-                    <div class="text-red-300 font-medium">Hidden Carbon Impact</div>
-                    <div class="text-slate-300 mt-1">Processing complexity makes treated wood the most carbon-intensive waste material.</div>
+        <section class="section-wrapper" data-section="6">
+            <div class="chart-section">
+                <div id="optimizationChart" class="chart-container">
+                    <canvas id="optimizationCanvas" class="chart-canvas"></canvas>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="narrative-panel">
+                    <h2 class="section-title">Carbon Footprint Analysis</h2>
+                    <p class="section-text">
+                        While treated wood represents only <span class="text-yellow-400">3.4% of waste by volume</span>, it contributes <span class="text-red-400 font-bold">18.7% of total carbon emissions</span>.
+                    </p>
+                    <p class="section-text">
+                        Total carbon footprint: <span class="metric-highlight text-2xl">3.1M tons CO₂e</span>
+                    </p>
+                    <div class="mt-6 p-4 bg-red-900/30 rounded-lg border border-red-500/30">
+                        <div class="text-red-300 font-medium">Hidden Carbon Impact</div>
+                        <div class="text-slate-300 mt-1">Processing complexity makes treated wood the most carbon-intensive waste material.</div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Optimization Section -->
-        <section class="narrative-section" data-section="7" data-chart="optimization">
-            <div class="narrative-panel">
-                <h2 class="section-title">Optimization Opportunities</h2>
-                <p class="section-text">
-                    Economic-environmental analysis reveals aluminum cans as the perfect optimization target: <span class="text-green-400 font-bold">95% recovery rate</span>, <span class="text-blue-400">$1,500/ton value</span>, and lowest carbon intensity.
-                </p>
-                <p class="section-text">
-                    Commercial sector offers <span class="metric-highlight text-xl">2.3x better ROI</span> than residential due to concentrated high-value materials.
-                </p>
-                <div class="mt-6 grid grid-cols-2 gap-4">
-                    <div class="p-3 bg-green-900/30 rounded-lg border border-green-500/30">
-                        <div class="text-green-300 font-medium">Best Investment</div>
-                        <div class="text-slate-300 text-sm">Aluminum Recovery</div>
-                    </div>
-                    <div class="p-3 bg-blue-900/30 rounded-lg border border-blue-500/30">
-                        <div class="text-blue-300 font-medium">Best Sector</div>
-                        <div class="text-slate-300 text-sm">Commercial</div>
+        <section class="section-wrapper" data-section="7">
+            <div class="chart-section">
+                <div id="carbonChart" class="chart-container">
+                    <canvas id="carbonCanvas" class="chart-canvas"></canvas>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="narrative-panel">
+                    <h2 class="section-title">Optimization Opportunities</h2>
+                    <p class="section-text">
+                        Economic-environmental analysis reveals aluminum cans as the perfect optimization target: <span class="text-green-400 font-bold">95% recovery rate</span>, <span class="text-blue-400">$1,500/ton value</span>, and lowest carbon intensity.
+                    </p>
+                    <p class="section-text">
+                        Commercial sector offers <span class="metric-highlight text-xl">2.3x better ROI</span> than residential due to concentrated high-value materials.
+                    </p>
+                    <div class="mt-6 grid grid-cols-2 gap-4">
+                        <div class="p-3 bg-green-900/30 rounded-lg border border-green-500/30">
+                            <div class="text-green-300 font-medium">Best Investment</div>
+                            <div class="text-slate-300 text-sm">Aluminum Recovery</div>
+                        </div>
+                        <div class="p-3 bg-blue-900/30 rounded-lg border border-blue-500/30">
+                            <div class="text-blue-300 font-medium">Best Sector</div>
+                            <div class="text-slate-300 text-sm">Commercial</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -429,16 +444,14 @@
     </div>
 
     <script>
-        // Chart instances and state
+        // Chart instances
         let charts = {};
         let currentSection = 0;
-        let currentChart = null;
         
         // Initialize all charts
         function initializeCharts() {
             // Intro Chart - Waste Composition Pie
-            charts.intro = new Chart(
-                document.getElementById('introCanvas'), {
+            charts.intro = new Chart(document.getElementById('introCanvas'), {
                 type: 'doughnut',
                 data: {
                     labels: ['Organics', 'Paper', 'Plastic', 'Metal', 'Glass', 'Other'],
@@ -467,8 +480,7 @@
                         }
                     }
                 }
-            }
-        );
+            });
 
             // Correlation Matrix
             charts.correlation = new Chart(document.getElementById('correlationCanvas'), {
@@ -740,52 +752,6 @@
                     }
                 }
             });
-
-            // After initializing charts, store them in the charts object for easy access
-            const chartContainers = document.querySelectorAll('.chart-container');
-            chartContainers.forEach(container => {
-                const id = container.id.replace('Chart', '');
-                charts[id] = {
-                    element: container,
-                    canvas: container.querySelector('canvas')
-                };
-            });
-        }
-
-        // Show specific chart
-        function updateCharts(sectionIndex, scrollProgress) {
-            const sections = document.querySelectorAll('.narrative-section');
-            const section = sections[sectionIndex];
-            const chartId = section.dataset.chart;
-            const targetChart = document.getElementById(chartId + 'Chart');
-
-            if (!targetChart) {
-                console.error('Chart not found:', chartId);
-                return;
-            }
-
-            // If we're switching to a new chart
-            if (currentChart !== targetChart) {
-                console.log('Switching to chart:', chartId); // Debug log
-
-                // Hide all charts first
-                document.querySelectorAll('.chart-container').forEach(container => {
-                    container.classList.remove('visible', 'active');
-                });
-
-                // Show new chart
-                targetChart.classList.add('visible');
-                currentChart = targetChart;
-            }
-
-            // Update chart state based on scroll progress
-            if (currentChart) {
-                if (scrollProgress < 0.4) {
-                    currentChart.classList.remove('active');
-                } else {
-                    currentChart.classList.add('active');
-                }
-            }
         }
 
         // Update progress and section
@@ -797,8 +763,7 @@
             document.getElementById('progressFill').style.width = progress + '%';
             
             // Determine current section
-            const sections = document.querySelectorAll('.narrative-section');
-            let foundCurrentSection = false;
+            const sections = document.querySelectorAll('.section-wrapper');
             
             sections.forEach((section, index) => {
                 const rect = section.getBoundingClientRect();
@@ -807,26 +772,20 @@
                 // Calculate the progress within this section
                 const sectionProgress = -rect.top / (rect.height - window.innerHeight);
                 
-                if (sectionProgress >= 0 && sectionProgress <= 1 && !foundCurrentSection) {
-                    foundCurrentSection = true;
-                    
+                if (sectionProgress >= 0 && sectionProgress <= 1) {
                     if (currentSection !== index) {
-                        console.log('Switching to section:', index); // Debug log
                         currentSection = index;
                         updateSectionIndicator(index);
                     }
                     
                     if (panel) {
-                        if (sectionProgress < 0.4) {
+                        // Show panel when in the second half of the section
+                        if (sectionProgress >= 0.5) {
                             panel.classList.add('active');
-                            panel.classList.remove('exit');
                         } else {
                             panel.classList.remove('active');
-                            panel.classList.add('exit');
                         }
                     }
-                    
-                    updateCharts(index, sectionProgress);
                 }
             });
         }
@@ -843,46 +802,12 @@
 
         // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Initializing...'); // Debug log
-            
-            // Initialize charts first
             initializeCharts();
-            
-            // Hide all charts initially
-            document.querySelectorAll('.chart-container').forEach(container => {
-                container.classList.remove('visible', 'active');
-            });
-            
-            // Show first chart in background state
-            const firstChart = document.getElementById('introChart');
-            if (firstChart) {
-                console.log('Setting up first chart'); // Debug log
-                firstChart.classList.add('visible');
-                currentChart = firstChart;
-            } else {
-                console.error('First chart not found!'); // Debug log
-            }
-            
             updateProgress();
             
-            // Add scroll event listener with throttling
-            let ticking = false;
-            window.addEventListener('scroll', function() {
-                if (!ticking) {
-                    window.requestAnimationFrame(function() {
-                        updateProgress();
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            });
-            
+            window.addEventListener('scroll', updateProgress);
             window.addEventListener('resize', function() {
-                Object.values(charts).forEach(chart => {
-                    if (chart.instance && typeof chart.instance.resize === 'function') {
-                        chart.instance.resize();
-                    }
-                });
+                Object.values(charts).forEach(chart => chart.resize());
             });
         });
     </script>

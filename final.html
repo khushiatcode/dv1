@@ -437,8 +437,7 @@
         // Initialize all charts
         function initializeCharts() {
             // Intro Chart - Waste Composition Pie
-            charts.intro = new Chart(
-                document.getElementById('introCanvas'), {
+            charts.intro = new Chart(document.getElementById('introCanvas'), {
                 type: 'doughnut',
                 data: {
                     labels: ['Organics', 'Paper', 'Plastic', 'Metal', 'Glass', 'Other'],
@@ -467,8 +466,7 @@
                         }
                     }
                 }
-            }
-        );
+            });
 
             // Correlation Matrix
             charts.correlation = new Chart(document.getElementById('correlationCanvas'), {
