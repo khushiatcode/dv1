@@ -375,9 +375,9 @@
         <canvas id="clustersCanvas" class="chart-canvas"></canvas>
     </div>
     
-    <div id="mlChart" class="chart-container hidden">
+    <!-- <div id="mlChart" class="chart-container hidden">
         <canvas id="mlCanvas" class="chart-canvas"></canvas>
-    </div>
+    </div> -->
     
     <div id="forecastChart" class="chart-container hidden">
         <canvas id="forecastCanvas" class="chart-canvas"></canvas>
@@ -450,7 +450,7 @@
         </section>
 
         <!-- Behavioral Clusters Section -->
-        <section class="narrative-section" data-section="3" data-chart="ml">
+        <!-- <section class="narrative-section" data-section="3" data-chart="ml">
             <div class="narrative-panel">
                 <h2 class="section-title">Material Behavioral Clusters</h2>
                 <p class="section-text">
@@ -471,10 +471,10 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- ML Performance Section -->
-        <section class="narrative-section" data-section="4" data-chart="forecast">
+        <!-- <section class="narrative-section" data-section="4" data-chart="forecast">
             <div class="narrative-panel">
                 <h2 class="section-title">Predictive Intelligence</h2>
                 <p class="section-text">
@@ -498,10 +498,10 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- Forecasting Section -->
-        <section class="narrative-section" data-section="5" data-chart="carbon">
+        <!-- <section class="narrative-section" data-section="5" data-chart="carbon">
             <div class="narrative-panel">
                 <h2 class="section-title">Future Waste Projections</h2>
                 <p class="section-text">
@@ -515,10 +515,10 @@
                     <div class="text-slate-300 mt-1">Current composting capacity will be exceeded by 2024 without intervention.</div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- Carbon Impact Section -->
-        <section class="narrative-section" data-section="6" data-chart="optimization">
+        <section class="narrative-section" data-section="6" data-chart="carbon">
             <div class="narrative-panel">
                 <h2 class="section-title">Carbon Footprint Analysis</h2>
                 <p class="section-text">
@@ -535,7 +535,7 @@
         </section>
 
         <!-- Optimization Section -->
-        <section class="narrative-section" data-section="7" data-chart="optimization">
+        <!-- <section class="narrative-section" data-section="7" data-chart="optimization">
             <div class="narrative-panel">
                 <h2 class="section-title">Optimization Opportunities</h2>
                 <p class="section-text">
@@ -555,7 +555,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
     </div>
 
     <script>
@@ -986,49 +986,89 @@
                 }
             });
 
-            // Behavioral Clusters
+            // Sustainability Chart (replacing Clusters Chart)
             charts.clusters = new Chart(document.getElementById('clustersCanvas'), {
-                type: 'bubble',
+                type: 'radar',
                 data: {
+                    labels: ['Paper', 'Plastic', 'Glass', 'Metal', 'Organics', 'Electronics'],
                     datasets: [{
-                        label: 'High-Value Recyclables',
-                        data: [{x: 85, y: 1500, r: 15}, {x: 78, y: 1200, r: 12}, {x: 92, y: 1800, r: 18}],
-                        backgroundColor: 'rgba(59, 130, 246, 0.6)',
-                        borderColor: '#3b82f6'
+                        label: 'Recycling Potential (%)',
+                        data: [85, 45, 90, 95, 75, 80],
+                        backgroundColor: 'rgba(34, 197, 94, 0.2)',
+                        borderColor: '#22c55e',
+                        pointBackgroundColor: '#22c55e',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#22c55e'
                     }, {
-                        label: 'Organic Streams',
-                        data: [{x: 45, y: 200, r: 25}, {x: 52, y: 180, r: 22}, {x: 38, y: 220, r: 28}],
-                        backgroundColor: 'rgba(16, 185, 129, 0.6)',
-                        borderColor: '#10b981'
-                    }, {
-                        label: 'Problem Materials',
-                        data: [{x: 15, y: 50, r: 20}, {x: 12, y: 45, r: 18}, {x: 18, y: 55, r: 22}],
-                        backgroundColor: 'rgba(239, 68, 68, 0.6)',
-                        borderColor: '#ef4444'
+                        label: 'Current Recycling (%)',
+                        data: [35, 15, 25, 70, 20, 40],
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                        borderColor: '#ef4444',
+                        pointBackgroundColor: '#ef4444',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#ef4444'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    elements: {
+                        line: { borderWidth: 3 }
+                    },
                     scales: {
-                        x: { 
-                            title: { display: true, text: 'Recovery Rate (%)', color: '#e2e8f0' },
-                            ticks: { color: '#94a3b8' },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
-                        },
-                        y: { 
-                            title: { display: true, text: 'Value ($/ton)', color: '#e2e8f0' },
-                            ticks: { color: '#94a3b8' },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        r: {
+                            angleLines: { 
+                                color: 'rgba(148, 163, 184, 0.2)' 
+                            },
+                            grid: {
+                                color: 'rgba(148, 163, 184, 0.1)'
+                            },
+                            pointLabels: {
+                                color: '#e2e8f0',
+                                font: {
+                                    size: 12,
+                                    family: 'Inter'
+                                }
+                            },
+                            ticks: {
+                                color: '#94a3b8',
+                                backdropColor: 'transparent',
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
                         }
                     },
                     plugins: {
-                        legend: { labels: { color: '#e2e8f0' } },
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#e2e8f0',
+                                font: {
+                                    size: 12,
+                                    family: 'Inter'
+                                },
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
                         title: {
                             display: true,
-                            text: 'Material Behavioral Clusters',
+                            text: 'Material Recovery Analysis',
                             color: '#f1f5f9',
-                            font: { size: 18, weight: 'bold' }
+                            font: {
+                                size: 18,
+                                weight: 'bold',
+                                family: 'Inter'
+                            },
+                            padding: {
+                                top: 20,
+                                bottom: 20
+                            }
                         }
                     }
                 }
@@ -1082,57 +1122,57 @@
             });
 
             // Forecasting
-            charts.forecast = new Chart(document.getElementById('forecastCanvas'), {
-                type: 'line',
-                data: {
-                    labels: ['2021', '2022', '2023', '2024', '2025'],
-                    datasets: [{
-                        label: 'Organic Waste (Million Tons)',
-                        data: [12.5, 13.1, 13.8, 14.6, 15.4],
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }, {
-                        label: 'Total Waste (Million Tons)',
-                        data: [35.5, 36.2, 37.1, 38.0, 38.9],
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: { 
-                            beginAtZero: true,
-                            ticks: { color: '#94a3b8' },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
-                        },
-                        x: { 
-                            ticks: { color: '#94a3b8' },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
-                        }
-                    },
-                    plugins: {
-                        legend: { labels: { color: '#e2e8f0' } },
-                        title: {
-                            display: true,
-                            text: 'Waste Generation Forecast',
-                            color: '#f1f5f9',
-                            font: { size: 18, weight: 'bold' }
-                        }
-                    }
-                }
-            });
+            // charts.forecast = new Chart(document.getElementById('forecastCanvas'), {
+            //     type: 'line',
+            //     data: {
+            //         labels: ['2021', '2022', '2023', '2024', '2025'],
+            //         datasets: [{
+            //             label: 'Organic Waste (Million Tons)',
+            //             data: [12.5, 13.1, 13.8, 14.6, 15.4],
+            //             borderColor: '#10b981',
+            //             backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            //             fill: true,
+            //             tension: 0.4
+            //         }, {
+            //             label: 'Total Waste (Million Tons)',
+            //             data: [35.5, 36.2, 37.1, 38.0, 38.9],
+            //             borderColor: '#3b82f6',
+            //             backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            //             fill: true,
+            //             tension: 0.4
+            //         }]
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         maintainAspectRatio: false,
+            //         scales: {
+            //             y: { 
+            //                 beginAtZero: true,
+            //                 ticks: { color: '#94a3b8' },
+            //                 grid: { color: 'rgba(148, 163, 184, 0.1)' }
+            //             },
+            //             x: { 
+            //                 ticks: { color: '#94a3b8' },
+            //                 grid: { color: 'rgba(148, 163, 184, 0.1)' }
+            //             }
+            //         },
+            //         plugins: {
+            //             legend: { labels: { color: '#e2e8f0' } },
+            //             title: {
+            //                 display: true,
+            //                 text: 'Waste Generation Forecast',
+            //                 color: '#f1f5f9',
+            //                 font: { size: 18, weight: 'bold' }
+            //             }
+            //         }
+            //     }
+            // });
 
             // Carbon Impact
             charts.carbon = new Chart(document.getElementById('carbonCanvas'), {
                 type: 'doughnut',
                 data: {
-                    labels: ['Treated Wood', 'Organics', 'Plastics', 'Paper', 'Metals', 'Other'],
+                    labels: ['Treated Wood (18.7%)', 'Plastic Products (16.2%)', 'Mixed Residue (14.8%)', 'Food Waste (12.3%)', 'Electronics (11.5%)', 'Other Materials (26.5%)'],
                     datasets: [{
                         data: [18.7, 25.3, 15.2, 12.8, 8.4, 19.6],
                         backgroundColor: [
@@ -1306,7 +1346,7 @@
         // Update section indicator
         function updateSectionIndicator(sectionIndex) {
             const sectionNames = [
-                'Introduction', 'Recovery Potential', 'Hidden Patterns', 'Behavioral Clusters',
+                'Introduction', 'Recovery Potential', 'Hidden Patterns',
                 'ML Performance', 'Forecasting', 'Carbon Impact', 'Optimization'
             ];
             
