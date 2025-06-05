@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -37,17 +39,23 @@
             z-index: 1;
             pointer-events: none;
             display: none;
+            overflow-y: auto;
+            padding: 2rem;
         }
         
         .chart-container.visible {
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
             opacity: 0.3;
+            pointer-events: auto;
         }
         
         .chart-container.active {
             opacity: 1;
             transform: scale(1);
-            z-index: 2;
+            z-index: 15;
+            pointer-events: auto;
         }
         
         .narrative-container {
@@ -160,9 +168,18 @@
             width: 0%;
             transition: width 0.3s ease;
         }
+
+        .progress-indicator .text-sm {
+            color: #ffffff;
+        }
         
         .chart-canvas {
+            width: 100% !important;
+            height: calc(100vh - 4rem) !important;
             background: transparent;
+            max-width: 1400px;
+            margin: 0 auto;
+            touch-action: pan-y pinch-zoom;
         }
         
         .intro-section {
@@ -219,6 +236,76 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        select option {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 8px;
+        }
+
+        /* Select Container Styles */
+        .select-controls {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 20;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .select-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .select-label {
+            color: #e2e8f0;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        select {
+            background-color: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 0.5rem;
+            color: #ffffff;
+            font-size: 0.875rem;
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            appearance: none;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            min-width: 160px;
+            transition: all 0.2s ease;
+        }
+
+        select:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            background-color: rgba(15, 23, 42, 0.9);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: rgba(99, 102, 241, 0.8);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Custom select arrow */
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '▼';
+            font-size: 0.7rem;
+            color: #94a3b8;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -234,11 +321,54 @@
 
     <!-- Chart Containers -->
     <div id="introChart" class="chart-container">
+        <div class="select-controls">
+            <div class="select-group">
+                <label for="sectorSelect" class="select-label">Select Sector:</label>
+                <div class="select-wrapper">
+                    <select id="sectorSelect" class="bg-slate-900/80 text-slate-200 border border-slate-700 rounded-lg px-4 py-2 text-sm font-medium backdrop-blur-sm transition-all hover:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50">
+                        <option value="statewide">Statewide Total</option>
+                        <option value="residential">Residential (Single-family)</option>
+                        <option value="commercial">Commercial (including Multi-family)</option>
+                        <option value="selfhaul">Self-Haul</option>
+                        <option value="transfer">Transfer Truck</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         <canvas id="introCanvas" class="chart-canvas"></canvas>
     </div>
     
     <div id="correlationChart" class="chart-container hidden">
-        <canvas id="correlationCanvas" class="chart-canvas"></canvas>
+        <div class="select-controls">
+            <div class="select-group">
+                <label for="materialSelect" class="select-label">Material Category:</label>
+                <div class="select-wrapper">
+                    <select id="materialSelect" class="bg-slate-900/80 text-slate-200 border border-slate-700 rounded-lg px-4 py-2 text-sm font-medium backdrop-blur-sm transition-all hover:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50">
+                        <option value="ORGANICS">Organics</option>
+                        <option value="PAPER">Paper</option>
+                        <option value="PLASTIC">Plastic</option>
+                        <option value="MIXED RESIDUE">Mixed Residue</option>
+                        <option value="INERTS AND OTHER">Inerts and Other</option>
+                        <option value="GLASS">Glass</option>
+                        <option value="METAL">Metal</option>
+                    </select>
+                </div>
+            </div>
+            <div class="select-group">
+                <label for="metricSelect" class="select-label">Metric:</label>
+                <div class="select-wrapper">
+                    <select id="metricSelect" class="bg-slate-900/80 text-slate-200 border border-slate-700 rounded-lg px-4 py-2 text-sm font-medium backdrop-blur-sm transition-all hover:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50">
+                        <option value="percentage">Percentage (%)</option>
+                        <option value="tonnage">Tonnage</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="w-full h-full pt-20 px-4">
+            <div class="relative w-full h-full">
+                <canvas id="comparisonChartCanvas"></canvas>
+            </div>
+        </div>
     </div>
     
     <div id="clustersChart" class="chart-container hidden">
@@ -434,83 +564,425 @@
         let currentSection = 0;
         let currentChart = null;
         
+        // Waste data for all visualizations
+            const wasteData = {
+            statewide: {
+                'ORGANICS': 34.5, 'MIXED RESIDUE': 16.7, 'PAPER': 15.5, 'INERTS AND OTHER': 12.8,
+                'PLASTIC': 8.9, 'SPECIAL WASTE': 4.8, 'METAL': 2.8, 'GLASS': 2.1, 'ELECTRONICS': 1.2, 'HHW': 0.7
+            },
+            residential: {
+                'ORGANICS': 43.2, 'MIXED RESIDUE': 18.1, 'PAPER': 12.3, 'PLASTIC': 9.8,
+                'INERTS AND OTHER': 7.2, 'SPECIAL WASTE': 3.9, 'METAL': 2.1, 'GLASS': 2.0, 'ELECTRONICS': 0.8, 'HHW': 0.6
+            },
+            commercial: {
+                'ORGANICS': 25.8, 'MIXED RESIDUE': 19.2, 'PAPER': 18.7, 'INERTS AND OTHER': 15.1,
+                'PLASTIC': 8.1, 'SPECIAL WASTE': 5.7, 'METAL': 3.2, 'GLASS': 2.3, 'ELECTRONICS': 1.4, 'HHW': 0.5
+            },
+            selfhaul: {
+                'INERTS AND OTHER': 35.4, 'ORGANICS': 22.1, 'MIXED RESIDUE': 14.3, 'PAPER': 8.9,
+                'SPECIAL WASTE': 8.2, 'PLASTIC': 5.1, 'METAL': 3.8, 'GLASS': 1.2, 'ELECTRONICS': 0.7, 'HHW': 0.3
+            },
+            transfer: {
+                'ORGANICS': 31.2, 'MIXED RESIDUE': 17.8, 'PAPER': 16.4, 'INERTS AND OTHER': 13.9,
+                'PLASTIC': 9.2, 'SPECIAL WASTE': 4.1, 'METAL': 3.1, 'GLASS': 2.8, 'ELECTRONICS': 1.0, 'HHW': 0.5
+            }
+        };
+
+        const tonnageData = {
+            statewide: {
+                'ORGANICS': 13762125, 'MIXED RESIDUE': 6670083, 'PAPER': 6193825, 'INERTS AND OTHER': 5111424,
+                'PLASTIC': 3557671, 'SPECIAL WASTE': 1915392, 'METAL': 1118336, 'GLASS': 838358, 'ELECTRONICS': 479359, 'HHW': 279523
+            }
+        };
+        
         // Initialize all charts
         function initializeCharts() {
-            // Intro Chart - Waste Composition Pie
-            charts.intro = new Chart(
-                document.getElementById('introCanvas'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Organics', 'Paper', 'Plastic', 'Metal', 'Glass', 'Other'],
-                    datasets: [{
-                        data: [35.2, 18.7, 12.4, 8.3, 4.1, 21.3],
-                        backgroundColor: [
-                            '#10b981', '#3b82f6', '#8b5cf6', 
-                            '#f59e0b', '#ef4444', '#6b7280'
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: { color: '#e2e8f0', font: { size: 14 } }
-                        },
-                        title: {
-                            display: true,
-                            text: 'California Waste Composition 2021',
-                            color: '#f1f5f9',
-                            font: { size: 18, weight: 'bold' }
-                        }
+            // Intro Chart - Treemap Visualization using ECharts
+            const introChart = echarts.init(document.getElementById('introCanvas'), null, {
+                width: Math.min(window.innerWidth, 1400),
+                height: window.innerHeight - 64,
+                renderer: 'canvas'
+            });
+            
+            function updateTreemap(sector) {
+                const data = wasteData[sector];
+                const treemapData = Object.entries(data).map(([name, value]) => ({
+                    name: name,
+                    value: value,
+                    itemStyle: {
+                        color: getColorForCategory(name)
                     }
-                }
-            }
-        );
-
-            // Correlation Matrix
-            charts.correlation = new Chart(document.getElementById('correlationCanvas'), {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Residential vs Commercial',
-                        data: [
-                            {x: 25, y: 15, r: 10},
-                            {x: 30, y: 12, r: 8},
-                            {x: 35, y: 8, r: 12},
-                            {x: 40, y: 5, r: 15},
-                            {x: 45, y: 3, r: 9}
-                        ],
-                        backgroundColor: 'rgba(59, 130, 246, 0.6)',
-                        borderColor: '#3b82f6'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: { 
-                            title: { display: true, text: 'Residential Organics (%)', color: '#e2e8f0' },
-                            ticks: { color: '#94a3b8' },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                }));
+                
+                const option = {
+                    series: [{
+                        type: 'treemap',
+                        width: '90%',
+                        height: '85%',
+                        top: '12%',
+                        left: '5%',
+                        roam: false,
+                        nodeClick: false,
+                        zoomLock: true,
+                        data: treemapData,
+                        label: {
+                            show: true,
+                            formatter: function (params) {
+                                const value = params.value.toFixed(1);
+                                return `{name|${params.name}}\n{value|${value}%}`;
+                            },
+                            rich: {
+                                name: {
+                                    fontSize: 14,
+                                    color: '#ffffff',
+                                    fontWeight: 'bold',
+                                    padding: [0, 0, 5, 0]
+                                },
+                                value: {
+                                    fontSize: 12,
+                                    color: 'rgba(255,255,255,0.8)',
+                                    padding: [5, 0, 0, 0]
+                                }
+                            }
                         },
-                        y: { 
-                            title: { display: true, text: 'Commercial Paper (%)', color: '#e2e8f0' },
-                            ticks: { color: '#94a3b8' },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        breadcrumb: { show: false },
+                        itemStyle: {
+                            borderColor: 'rgba(0,0,0,0.2)',
+                            borderWidth: 1,
+                            gapWidth: 1,
+                            borderRadius: 2
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0,0,0,0.5)'
+                            }
+                        },
+                        upperLabel: { show: false },
+                        levels: [{
+                            itemStyle: {
+                                borderColor: 'rgba(0,0,0,0.2)',
+                                borderWidth: 1,
+                                gapWidth: 1
+                            }
+                        }],
+                        visualDimension: 1
+                    }],
+                        title: {
+                        text: `California Waste Composition 2021 - ${sector.charAt(0).toUpperCase() + sector.slice(1)}`,
+                        left: 'center',
+                        top: '4%',
+                        textStyle: {
+                            color: '#f1f5f9',
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            fontFamily: 'Inter'
                         }
                     },
-                    plugins: {
-                        legend: { labels: { color: '#e2e8f0' } },
-                        title: {
-                            display: true,
-                            text: 'Cross-Sector Correlation Analysis',
-                            color: '#f1f5f9',
-                            font: { size: 18, weight: 'bold' }
+                    tooltip: {
+                        formatter: function(info) {
+                            const value = info.value.toFixed(1);
+                            return `<div style="font-family: Inter; padding: 3px 6px;">
+                                <div style="font-weight: bold; margin-bottom: 4px;">${info.name}</div>
+                                <div style="color: rgba(255,255,255,0.9);">${value}%</div>
+                            </div>`;
+                        },
+                        backgroundColor: 'rgba(0,0,0,0.75)',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        textStyle: {
+                            color: '#fff'
+                        },
+                        extraCssText: 'backdrop-filter: blur(4px); border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);'
+                    }
+                };
+                
+                introChart.setOption(option);
+            }
+
+            // Add helper function for treemap colors
+            function getColorForCategory(category) {
+                const colors = {
+                    'ORGANICS': '#10b981',
+                    'PAPER': '#3b82f6',
+                    'PLASTIC': '#f59e0b',
+                    'METAL': '#6b7280',
+                    'GLASS': '#06b6d4',
+                    'ELECTRONICS': '#8b5cf6',
+                    'MIXED RESIDUE': '#ef4444',
+                    'INERTS AND OTHER': '#94a3b8',
+                    'SPECIAL WASTE': '#f97316',
+                    'HHW': '#dc2626'
+                };
+                return colors[category] || '#9ca3af';
+            }
+
+            // Remove the previous event listeners that were blocking scroll
+            // Only prevent chart-specific zoom behavior
+            introChart.setOption({
+                preventDefaultMouseMove: false,
+                preventDefaultMouseWheel: false,
+                preventDefaultTouchStart: false,
+                preventDefaultTouchMove: false
+            });
+
+            // Initialize with statewide data
+            updateTreemap('statewide');
+            
+            // Add event listener for sector selection
+            document.getElementById('sectorSelect').addEventListener('change', function(e) {
+                updateTreemap(e.target.value);
+            });
+
+            charts.intro = {
+                instance: introChart,
+                element: document.getElementById('introChart'),
+                canvas: document.getElementById('introCanvas')
+            };
+
+            // Update resize handler
+            window.addEventListener('resize', function() {
+                if (introChart) {
+                    introChart.resize({
+                        width: Math.min(window.innerWidth, 1400),
+                        height: window.innerHeight - 64
+                    });
+                }
+            });
+
+            // Comparison Chart initialization and update function
+            function updateComparison() {
+                const material = document.getElementById('materialSelect')?.value || 'ORGANICS';
+                const metric = document.getElementById('metricSelect')?.value || 'percentage';
+                
+                const sectors = ['statewide', 'residential', 'commercial', 'selfhaul', 'transfer'];
+                const values = sectors.map(sector => wasteData[sector][material] || 0);
+                const labels = ['Statewide', 'Residential', 'Commercial', 'Self-Haul', 'Transfer'];
+
+                const canvas = document.getElementById('comparisonChartCanvas');
+                if (!canvas) {
+                    console.error('Canvas element not found');
+                    return;
+                }
+
+                // Set canvas dimensions
+                const container = canvas.parentElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                    console.error('Could not get canvas context');
+                    return;
+                }
+                
+                if (window.comparisonChartInstance) {
+                    window.comparisonChartInstance.destroy();
+                }
+
+                window.comparisonChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: material,
+                            data: values,
+                            backgroundColor: [
+                                'rgba(59, 130, 246, 0.8)',
+                                'rgba(16, 185, 129, 0.8)',
+                                'rgba(245, 158, 11, 0.8)',
+                                'rgba(239, 68, 68, 0.8)',
+                                'rgba(139, 92, 246, 0.8)'
+                            ],
+                            borderColor: [
+                                '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'
+                            ],
+                            borderWidth: 2,
+                            // Store original colors for each sector
+                            sectorColors: {
+                                'Statewide': { bg: 'rgba(59, 130, 246, 0.8)', border: '#3b82f6' },
+                                'Residential': { bg: 'rgba(16, 185, 129, 0.8)', border: '#10b981' },
+                                'Commercial': { bg: 'rgba(245, 158, 11, 0.8)', border: '#f59e0b' },
+                                'Self-Haul': { bg: 'rgba(239, 68, 68, 0.8)', border: '#ef4444' },
+                                'Transfer': { bg: 'rgba(139, 92, 246, 0.8)', border: '#8b5cf6' }
+                            }
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                top: 20,
+                                right: 20,
+                                bottom: 40,
+                                left: 20
+                            }
+                        },
+                        plugins: {
+                            legend: { 
+                                display: true,
+                                position: 'bottom',
+                                onClick: function(e, legendItem, legend) {
+                                    const index = legendItem.index;
+                                    const chart = legend.chart;
+                                    
+                                    // Get current visible state
+                                    const currentVisibility = !legendItem.hidden;
+                                    
+                                    // Update the legend item's hidden state
+                                    legendItem.hidden = currentVisibility;
+                                    
+                                    // Filter the data and labels
+                                    const allData = [...chart.data.datasets[0].originalData || chart.data.datasets[0].data];
+                                    const allLabels = [...chart.data.originalLabels || chart.data.labels];
+                                    const sectorColors = chart.data.datasets[0].sectorColors;
+                                    
+                                    // Store original data if not already stored
+                                    if (!chart.data.datasets[0].originalData) {
+                                        chart.data.datasets[0].originalData = [...allData];
+                                        chart.data.originalLabels = [...allLabels];
+                                    }
+                                    
+                                    // Get all legend items
+                                    const legendItems = legend.legendItems;
+                                    
+                                    // Filter data based on legend visibility
+                                    const newData = [];
+                                    const newLabels = [];
+                                    const newBackgroundColors = [];
+                                    const newBorderColors = [];
+                                    
+                                    legendItems.forEach((item, i) => {
+                                        if (!item.hidden) {
+                                            newData.push(chart.data.datasets[0].originalData[i]);
+                                            const label = chart.data.originalLabels[i];
+                                            newLabels.push(label);
+                                            // Use stored colors for the sector
+                                            newBackgroundColors.push(sectorColors[label].bg);
+                                            newBorderColors.push(sectorColors[label].border);
+                                        }
+                                    });
+                                    
+                                    // Update chart data and colors
+                                    chart.data.datasets[0].data = newData;
+                                    chart.data.labels = newLabels;
+                                    chart.data.datasets[0].backgroundColor = newBackgroundColors;
+                                    chart.data.datasets[0].borderColor = newBorderColors;
+                                    
+                                    chart.update();
+                                },
+                                labels: { 
+                                    boxWidth: 15,
+                                    padding: 20,
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 12,
+                                        weight: '500',
+                                        family: 'Inter'
+                                    },
+                                    usePointStyle: true,
+                                    generateLabels: function(chart) {
+                                        // Store original data if not already stored
+                                        if (!chart.data.datasets[0].originalData) {
+                                            chart.data.datasets[0].originalData = [...chart.data.datasets[0].data];
+                                            chart.data.originalLabels = [...chart.data.labels];
+                                        }
+                                        
+                                        const originalData = chart.data.datasets[0].originalData;
+                                        const originalLabels = chart.data.originalLabels;
+                                        const sectorColors = chart.data.datasets[0].sectorColors;
+                                        
+                                        return originalLabels.map((label, i) => ({
+                                            text: `${label}: ${originalData[i]}${metric === 'percentage' ? '%' : ' tons'}`,
+                                            fillStyle: sectorColors[label].bg,
+                                            strokeStyle: sectorColors[label].border,
+                                            lineWidth: 1,
+                                            hidden: !chart.data.labels.includes(label),
+                                            index: i,
+                                            fontColor: '#ffffff'
+                                        }));
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: `${material} Distribution by Sector`,
+                                color: '#f1f5f9',
+                                font: { size: 18, weight: 'bold' },
+                                padding: { top: 10, bottom: 20 }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                                ticks: { 
+                                    color: '#94a3b8',
+                                    font: {
+                                        size: 11
+                                    },
+                                    callback: function(value) {
+                                        return value + (metric === 'percentage' ? '%' : ' tons');
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: metric === 'percentage' ? 'Percentage (%)' : 'Tonnage',
+                                    color: '#e2e8f0',
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                                ticks: { 
+                                    color: '#94a3b8',
+                                    font: {
+                                        size: 11
+                                    }
+                                }
+                            }
                         }
                     }
+                });
+            }
+
+            // Initialize comparison chart when section becomes visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            try {
+                                updateComparison();
+                                charts.correlation = {
+                                    instance: window.comparisonChartInstance,
+                                    element: document.getElementById('correlationChart'),
+                                    canvas: document.getElementById('comparisonChartCanvas'),
+                                    update: updateComparison
+                                };
+                            } catch (error) {
+                                console.error('Error initializing comparison chart:', error);
+                            }
+                        }, 100);
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            const correlationChart = document.getElementById('correlationChart');
+            if (correlationChart) {
+                observer.observe(correlationChart);
+            }
+
+            // Add event listeners for comparison chart filters
+            document.getElementById('materialSelect')?.addEventListener('change', updateComparison);
+            document.getElementById('metricSelect')?.addEventListener('change', updateComparison);
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.comparisonChartInstance) {
+                    updateComparison();
                 }
             });
 
