@@ -2,8 +2,6 @@
 
 > A data visualization and analytics platform exploring California's 2021 statewide waste characterization data across six waste-generation sectors, featuring AI-powered pattern discovery, cross-sector comparisons, a carbon footprint calculator, and a scrollytelling narrative experience.
 >
-> **Course Project | Santa Clara University | Data Visualization**
->
 > ---
 >
 > ## Overview
@@ -17,13 +15,12 @@
 > ## Key Metrics Surfaced
 >
 > - **40M+ tons** of statewide waste characterized (2021)
-> - - **1.3M tons** total recoverable waste identified
->   - - **$115M** estimated economic value of recoverable materials
->     - - **3.1M tons CO₂e** total carbon footprint modeled
->       - - **94.7%** accuracy on waste composition prediction model
->         - - **555+ data points** processed across 6 sectors
+> - **1.3M tons** total recoverable waste identified
+> - **$115M** estimated economic value of recoverable materials
+> - **3.1M tons CO₂e** total carbon footprint modeled
+> - **94.7%** accuracy on waste composition prediction model
+> - **555+ data points** processed across 6 sectors
 >          
->           - ---
 >
 > ## Features
 >
@@ -99,20 +96,8 @@
 > ## Key Insights Uncovered
 >
 > - **Organics dominate** — 30.2% of California's waste is organics (food scraps, yard waste), making composting the single largest diversion opportunity
-> - - **Paper still significant** — 15.5% of the waste stream is paper, much of it recyclable
->   - - **Sector divergence is large** — Commercial waste composition differs significantly from Residential, suggesting that one-size-fits-all diversion policies miss the biggest opportunities
->     - - **Carbon cost of landfilling** — The platform models that current landfill practices generate 3.1M tons CO₂e annually; aggressive diversion could cut this substantially
+> - **Paper still significant** — 15.5% of the waste stream is paper, much of it recyclable
+> - **Sector divergence is large** — Commercial waste composition differs significantly from Residential, suggesting that one-size-fits-all diversion policies miss the biggest opportunities
+> - **Carbon cost of landfilling** — The platform models that current landfill practices generate 3.1M tons CO₂e annually; aggressive diversion could cut this substantially
 >      
->       - ---
->
-> ## Contributors
->
-> - [khushiatcode](https://github.com/khushiatcode) — Khushi Savaliya
-> - - [dishankoza](https://github.com/dishankoza) — Dishank Oza
->  
->   - ---
->
-> ## License
->
-> MIT License
-> 
+
