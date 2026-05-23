@@ -30,23 +30,22 @@
 > ### 2. Main Analytics Dashboard (`index.html`)
 > The core interactive dashboard featuring:
 > - **Hierarchical treemap** of waste composition by material type (Chart.js Treemap + ECharts)
-> - - **Sector comparison dashboard** — filter and compare waste profiles across Residential, Commercial, Self-Haul, Transfer Truck, and Multi-family sectors
->   - - **Donut charts** for per-sector waste composition breakdown
->     - - **Cluster graph** grouping sectors by behavioral similarity
+> - **Sector comparison dashboard** — filter and compare waste profiles across Residential, Commercial, Self-Haul, Transfer Truck, and Multi-family sectors
+> - **Donut charts** for per-sector waste composition breakdown
+> - **Cluster graph** grouping sectors by behavioral similarity
 >      
->       - ### 3. AI-Powered Intelligence Dashboard (`intelligent_analysis_v2.html`)
->       - - Hidden pattern discovery using correlation heatmaps
->         - - Cross-sector behavioral clustering
->           - - Predictive insights and optimization recommendations
->             - - Sustainability opportunity identification with economic value tagging
+> ### 3. AI-Powered Intelligence Dashboard (`intelligent_analysis_v2.html`)
+> - Hidden pattern discovery using correlation heatmaps
+> - Cross-sector behavioral clustering
+> - Predictive insights and optimization recommendations
+> - Sustainability opportunity identification with economic value tagging
 >              
->               - ### 4. Carbon Footprint Calculator (`carbon_footprint_calculator.html`)
->               - An interactive tool allowing users to estimate carbon impact by waste type, with animated counters and personalized reduction recommendations.
+> ### 4. Carbon Footprint Calculator (`carbon_footprint_calculator.html`)
+> - An interactive tool allowing users to estimate carbon impact by waste type, with animated counters and personalized reduction recommendations.
 >              
->               - ### 5. Source Code Documentation (`source_code_doc.html`)
->               - Full technical documentation including architecture diagrams, data pipeline description, and annotated source code.
+> ### 5. Source Code Documentation (`source_code_doc.html`)
+> - Full technical documentation including architecture diagrams, data pipeline description, and annotated source code.
 >              
->               - ---
 >
 > ## Data Sources
 >
